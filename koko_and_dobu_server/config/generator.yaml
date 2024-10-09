@@ -1,3 +1,6 @@
 type: server
 
 client_package_path: ../koko_and_dobu_client
+modules:
+  serverpod_auth:
+    nickname: auth

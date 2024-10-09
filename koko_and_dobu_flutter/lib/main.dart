@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:koko_and_dobu_client/koko_and_dobu_client.dart';
 import 'package:flutter/material.dart';
+import 'package:serverpod_auth_google_flutter/serverpod_auth_google_flutter.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 // Sets up a singleton client object that can be used to talk to the server from
@@ -7,10 +11,17 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
 // The client is set up to connect to a Serverpod running on a local server on
 // the default port. You will need to modify this to connect to staging or
 // production servers.
-var client = Client('http://$localhost:8080/')
-  ..connectivityMonitor = FlutterConnectivityMonitor();
+late Client client;
+late SessionManager sessionManager;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  client = Client('http://$localhost:8080/', authenticationKeyManager: FlutterAuthenticationKeyManager())..connectivityMonitor = FlutterConnectivityMonitor();
+
+  sessionManager = SessionManager(
+    caller: client.modules.auth,
+  );
+  await sessionManager.initialize();
   runApp(const MyApp());
 }
 
@@ -88,6 +99,13 @@ class MyHomePageState extends State<MyHomePage> {
                 onPressed: _callHello,
                 child: const Text('Send to Server'),
               ),
+            ),
+            SignInWithGoogleButton(
+              caller: client.modules.auth,
+              redirectUri: Uri.parse("http://localhost:8082/googlesignin"),
+              serverClientId: "145985629491-rdu1vvjbdo0ekl90i3coj5c7eujeisg3.apps.googleusercontent.com",
+              onSignedIn: () => log("successfully logged in ${sessionManager.signedInUser}"),
+              onFailure: () => log("Failed to log in"),
             ),
             _ResultDisplay(
               resultMessage: _resultMessage,
