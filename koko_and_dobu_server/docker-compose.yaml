@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:16.3
+    ports:
+      - '8090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: koko_and_dobu
+      POSTGRES_PASSWORD: "11olgzH2OCq06X5k5B9tjotjLOuFc6-z"
+    volumes:
+      - koko_and_dobu_data:/var/lib/postgresql/data
+  redis:
+    image: redis:6.2.6
+    ports:
+      - '8091:6379'
+    command: redis-server --requirepass "CbRdxl3EPsa7QkByOpp2CSZ58MZd_ZhY"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+volumes:
+  koko_and_dobu_data:

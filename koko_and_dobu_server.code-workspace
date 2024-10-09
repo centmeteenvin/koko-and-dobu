@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "koko_and_dobu_server"
+		},
+		{
+			"path": "koko_and_dobu_flutter"
+		},
+		{
+			"path": "koko_and_dobu_client"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}
