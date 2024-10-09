@@ -37,7 +37,27 @@
             ],
           },
         ]
-      }
+      },
+      {
+        "splitTerminals": [
+          {
+            "name": "server",
+            "commands": [
+              "cd koko_and_dobu_server",
+            ],
+          },
+        ]
+      },
+      {
+        "splitTerminals": [
+          {
+            "name": "flutter",
+            "commands": [
+              "cd koko_and_dobu_flutter",
+            ],
+          },
+        ]
+      },
     ],
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
