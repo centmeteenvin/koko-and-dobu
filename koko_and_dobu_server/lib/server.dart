@@ -1,3 +1,4 @@
+import 'package:koko_and_dobu_server/src/helpers/on_user_created.dart';
 import 'package:serverpod/serverpod.dart';
 
 import 'package:koko_and_dobu_server/src/web/routes/root.dart';
@@ -32,6 +33,9 @@ void run(List<String> args) async {
     RouteStaticDirectory(serverDirectory: 'static', basePath: '/'),
     '/*',
   );
+  auth.AuthConfig.set(auth.AuthConfig(
+    onUserCreated: onUserCreated,
+  ));
 
   // Start the server.
   await pod.start();

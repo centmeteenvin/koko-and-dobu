@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:koko_and_dobu_client/koko_and_dobu_client.dart';
 import 'package:flutter/material.dart';
 import 'package:serverpod_auth_google_flutter/serverpod_auth_google_flutter.dart';
-import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 // Sets up a singleton client object that can be used to talk to the server from
