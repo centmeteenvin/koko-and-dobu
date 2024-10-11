@@ -1,5 +1,6 @@
 import 'package:koko_and_dobu_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
+import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
 extension SessionUser on Session {
   Future<User?> get currentUserOrNull async {
@@ -24,4 +25,15 @@ extension SessionUser on Session {
     }
     return user;
   }
+}
+
+Future<User?> getUserByUserInfoId(Session session, int userInfoId) async {
+  return User.db.findFirstRow(
+    session,
+    where: (user) => user.userInfoId.equals(userInfoId),
+    include: User.include(
+      userInfo: UserInfo.include(),
+      dorm: Dorm.include(),
+    ),
+  );
 }
