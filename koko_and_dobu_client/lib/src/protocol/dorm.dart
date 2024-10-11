@@ -22,6 +22,7 @@ abstract class Dorm implements _i1.SerializableModel {
     required this.ownerId,
     this.owner,
     this.outgoingRequests,
+    required this.name,
   });
 
   factory Dorm({
@@ -33,6 +34,7 @@ abstract class Dorm implements _i1.SerializableModel {
     required int ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    required String name,
   }) = _DormImpl;
 
   factory Dorm.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -53,6 +55,7 @@ abstract class Dorm implements _i1.SerializableModel {
           ?.map(
               (e) => _i2.DormJoinRequest.fromJson((e as Map<String, dynamic>)))
           .toList(),
+      name: jsonSerialization['name'] as String,
     );
   }
 
@@ -75,6 +78,8 @@ abstract class Dorm implements _i1.SerializableModel {
 
   List<_i2.DormJoinRequest>? outgoingRequests;
 
+  String name;
+
   Dorm copyWith({
     int? id,
     double? lat,
@@ -84,6 +89,7 @@ abstract class Dorm implements _i1.SerializableModel {
     int? ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    String? name,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -99,6 +105,7 @@ abstract class Dorm implements _i1.SerializableModel {
       if (outgoingRequests != null)
         'outgoingRequests':
             outgoingRequests?.toJson(valueToJson: (v) => v.toJson()),
+      'name': name,
     };
   }
 
@@ -120,6 +127,7 @@ class _DormImpl extends Dorm {
     required int ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    required String name,
   }) : super._(
           id: id,
           lat: lat,
@@ -129,6 +137,7 @@ class _DormImpl extends Dorm {
           ownerId: ownerId,
           owner: owner,
           outgoingRequests: outgoingRequests,
+          name: name,
         );
 
   @override
@@ -141,6 +150,7 @@ class _DormImpl extends Dorm {
     int? ownerId,
     Object? owner = _Undefined,
     Object? outgoingRequests = _Undefined,
+    String? name,
   }) {
     return Dorm(
       id: id is int? ? id : this.id,
@@ -155,6 +165,7 @@ class _DormImpl extends Dorm {
       outgoingRequests: outgoingRequests is List<_i2.DormJoinRequest>?
           ? outgoingRequests
           : this.outgoingRequests?.map((e0) => e0.copyWith()).toList(),
+      name: name ?? this.name,
     );
   }
 }

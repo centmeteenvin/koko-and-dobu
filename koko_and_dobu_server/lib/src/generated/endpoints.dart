@@ -102,6 +102,11 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<String?>(),
               nullable: true,
             ),
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
@@ -109,9 +114,10 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['dorm'] as _i3.DormEndpoint).createDorm(
             session,
-            params['lat'],
-            params['long'],
-            params['websiteUrl'],
+            lat: params['lat'],
+            long: params['long'],
+            websiteUrl: params['websiteUrl'],
+            name: params['name'],
           ),
         ),
         'sendDormJoinRequest': _i1.MethodConnector(

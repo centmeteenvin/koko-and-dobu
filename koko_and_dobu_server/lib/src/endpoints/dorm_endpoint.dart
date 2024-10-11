@@ -8,12 +8,26 @@ class DormEndpoint extends Endpoint {
   @override
   bool get requireLogin => true;
 
-  Future<Dorm> createDorm(Session session, double lat, double long, String? websiteUrl) async {
+  Future<Dorm> createDorm(
+    Session session, {
+    required double lat,
+    required double long,
+    String? websiteUrl,
+    required String name,
+  }) async {
     final currentUser = await session.currentUserOrThrow;
     if (currentUser.dormId != null) {
       throw Exception("User is already part of a dorm");
     }
-    final dorm = await Dorm.db.insertRow(session, Dorm(lat: lat, long: long, ownerId: currentUser.id!));
+    final dorm = await Dorm.db.insertRow(
+        session,
+        Dorm(
+          lat: lat,
+          long: long,
+          ownerId: currentUser.id!,
+          websiteUrl: websiteUrl,
+          name: name,
+        ));
     await Dorm.db.attachRow.owner(session, dorm, currentUser);
     await Dorm.db.attachRow.members(session, dorm, currentUser);
     return dorm;

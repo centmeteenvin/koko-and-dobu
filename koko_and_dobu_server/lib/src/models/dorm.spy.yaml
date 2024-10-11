@@ -7,6 +7,7 @@ fields:
     members: List<User>?, relation(name=dorm_members)
     owner: User?, relation
     outgoingRequests: List<DormJoinRequest>?, relation(name=dorm_join_request_dorm)
+    name: String
 
 indexes:
     dorm_owner_unique_idx:

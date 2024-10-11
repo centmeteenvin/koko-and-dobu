@@ -43,11 +43,12 @@ class EndpointDorm extends _i1.EndpointRef {
   @override
   String get name => 'dorm';
 
-  _i2.Future<_i3.Dorm> createDorm(
-    double lat,
-    double long,
+  _i2.Future<_i3.Dorm> createDorm({
+    required double lat,
+    required double long,
     String? websiteUrl,
-  ) =>
+    required String name,
+  }) =>
       caller.callServerEndpoint<_i3.Dorm>(
         'dorm',
         'createDorm',
@@ -55,6 +56,7 @@ class EndpointDorm extends _i1.EndpointRef {
           'lat': lat,
           'long': long,
           'websiteUrl': websiteUrl,
+          'name': name,
         },
       );
 
