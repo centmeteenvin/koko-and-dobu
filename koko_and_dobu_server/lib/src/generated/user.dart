@@ -11,18 +11,25 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i2;
+import 'protocol.dart' as _i3;
 
 abstract class User implements _i1.TableRow, _i1.ProtocolSerialization {
   User._({
     this.id,
     required this.userInfoId,
     this.userInfo,
+    this.dormId,
+    this.dorm,
+    this.incomingJoinRequests,
   });
 
   factory User({
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    int? dormId,
+    _i3.Dorm? dorm,
+    List<_i3.DormJoinRequest>? incomingJoinRequests,
   }) = _UserImpl;
 
   factory User.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -33,6 +40,15 @@ abstract class User implements _i1.TableRow, _i1.ProtocolSerialization {
           ? null
           : _i2.UserInfo.fromJson(
               (jsonSerialization['userInfo'] as Map<String, dynamic>)),
+      dormId: jsonSerialization['dormId'] as int?,
+      dorm: jsonSerialization['dorm'] == null
+          ? null
+          : _i3.Dorm.fromJson(
+              (jsonSerialization['dorm'] as Map<String, dynamic>)),
+      incomingJoinRequests: (jsonSerialization['incomingJoinRequests'] as List?)
+          ?.map(
+              (e) => _i3.DormJoinRequest.fromJson((e as Map<String, dynamic>)))
+          .toList(),
     );
   }
 
@@ -47,6 +63,12 @@ abstract class User implements _i1.TableRow, _i1.ProtocolSerialization {
 
   _i2.UserInfo? userInfo;
 
+  int? dormId;
+
+  _i3.Dorm? dorm;
+
+  List<_i3.DormJoinRequest>? incomingJoinRequests;
+
   @override
   _i1.Table get table => t;
 
@@ -54,6 +76,9 @@ abstract class User implements _i1.TableRow, _i1.ProtocolSerialization {
     int? id,
     int? userInfoId,
     _i2.UserInfo? userInfo,
+    int? dormId,
+    _i3.Dorm? dorm,
+    List<_i3.DormJoinRequest>? incomingJoinRequests,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -61,6 +86,11 @@ abstract class User implements _i1.TableRow, _i1.ProtocolSerialization {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
+      if (dormId != null) 'dormId': dormId,
+      if (dorm != null) 'dorm': dorm?.toJson(),
+      if (incomingJoinRequests != null)
+        'incomingJoinRequests':
+            incomingJoinRequests?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -70,11 +100,24 @@ abstract class User implements _i1.TableRow, _i1.ProtocolSerialization {
       if (id != null) 'id': id,
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJsonForProtocol(),
+      if (dormId != null) 'dormId': dormId,
+      if (dorm != null) 'dorm': dorm?.toJsonForProtocol(),
+      if (incomingJoinRequests != null)
+        'incomingJoinRequests': incomingJoinRequests?.toJson(
+            valueToJson: (v) => v.toJsonForProtocol()),
     };
   }
 
-  static UserInclude include({_i2.UserInfoInclude? userInfo}) {
-    return UserInclude._(userInfo: userInfo);
+  static UserInclude include({
+    _i2.UserInfoInclude? userInfo,
+    _i3.DormInclude? dorm,
+    _i3.DormJoinRequestIncludeList? incomingJoinRequests,
+  }) {
+    return UserInclude._(
+      userInfo: userInfo,
+      dorm: dorm,
+      incomingJoinRequests: incomingJoinRequests,
+    );
   }
 
   static UserIncludeList includeList({
@@ -110,10 +153,16 @@ class _UserImpl extends User {
     int? id,
     required int userInfoId,
     _i2.UserInfo? userInfo,
+    int? dormId,
+    _i3.Dorm? dorm,
+    List<_i3.DormJoinRequest>? incomingJoinRequests,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
           userInfo: userInfo,
+          dormId: dormId,
+          dorm: dorm,
+          incomingJoinRequests: incomingJoinRequests,
         );
 
   @override
@@ -121,12 +170,20 @@ class _UserImpl extends User {
     Object? id = _Undefined,
     int? userInfoId,
     Object? userInfo = _Undefined,
+    Object? dormId = _Undefined,
+    Object? dorm = _Undefined,
+    Object? incomingJoinRequests = _Undefined,
   }) {
     return User(
       id: id is int? ? id : this.id,
       userInfoId: userInfoId ?? this.userInfoId,
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
+      dormId: dormId is int? ? dormId : this.dormId,
+      dorm: dorm is _i3.Dorm? ? dorm : this.dorm?.copyWith(),
+      incomingJoinRequests: incomingJoinRequests is List<_i3.DormJoinRequest>?
+          ? incomingJoinRequests
+          : this.incomingJoinRequests?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }
@@ -137,11 +194,23 @@ class UserTable extends _i1.Table {
       'userInfoId',
       this,
     );
+    dormId = _i1.ColumnInt(
+      'dormId',
+      this,
+    );
   }
 
   late final _i1.ColumnInt userInfoId;
 
   _i2.UserInfoTable? _userInfo;
+
+  late final _i1.ColumnInt dormId;
+
+  _i3.DormTable? _dorm;
+
+  _i3.DormJoinRequestTable? ___incomingJoinRequests;
+
+  _i1.ManyRelation<_i3.DormJoinRequestTable>? _incomingJoinRequests;
 
   _i2.UserInfoTable get userInfo {
     if (_userInfo != null) return _userInfo!;
@@ -156,10 +225,55 @@ class UserTable extends _i1.Table {
     return _userInfo!;
   }
 
+  _i3.DormTable get dorm {
+    if (_dorm != null) return _dorm!;
+    _dorm = _i1.createRelationTable(
+      relationFieldName: 'dorm',
+      field: User.t.dormId,
+      foreignField: _i3.Dorm.t.id,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.DormTable(tableRelation: foreignTableRelation),
+    );
+    return _dorm!;
+  }
+
+  _i3.DormJoinRequestTable get __incomingJoinRequests {
+    if (___incomingJoinRequests != null) return ___incomingJoinRequests!;
+    ___incomingJoinRequests = _i1.createRelationTable(
+      relationFieldName: '__incomingJoinRequests',
+      field: User.t.id,
+      foreignField: _i3.DormJoinRequest.t.userId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.DormJoinRequestTable(tableRelation: foreignTableRelation),
+    );
+    return ___incomingJoinRequests!;
+  }
+
+  _i1.ManyRelation<_i3.DormJoinRequestTable> get incomingJoinRequests {
+    if (_incomingJoinRequests != null) return _incomingJoinRequests!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'incomingJoinRequests',
+      field: User.t.id,
+      foreignField: _i3.DormJoinRequest.t.userId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.DormJoinRequestTable(tableRelation: foreignTableRelation),
+    );
+    _incomingJoinRequests = _i1.ManyRelation<_i3.DormJoinRequestTable>(
+      tableWithRelations: relationTable,
+      table: _i3.DormJoinRequestTable(
+          tableRelation: relationTable.tableRelation!.lastRelation),
+    );
+    return _incomingJoinRequests!;
+  }
+
   @override
   List<_i1.Column> get columns => [
         id,
         userInfoId,
+        dormId,
       ];
 
   @override
@@ -167,19 +281,39 @@ class UserTable extends _i1.Table {
     if (relationField == 'userInfo') {
       return userInfo;
     }
+    if (relationField == 'dorm') {
+      return dorm;
+    }
+    if (relationField == 'incomingJoinRequests') {
+      return __incomingJoinRequests;
+    }
     return null;
   }
 }
 
 class UserInclude extends _i1.IncludeObject {
-  UserInclude._({_i2.UserInfoInclude? userInfo}) {
+  UserInclude._({
+    _i2.UserInfoInclude? userInfo,
+    _i3.DormInclude? dorm,
+    _i3.DormJoinRequestIncludeList? incomingJoinRequests,
+  }) {
     _userInfo = userInfo;
+    _dorm = dorm;
+    _incomingJoinRequests = incomingJoinRequests;
   }
 
   _i2.UserInfoInclude? _userInfo;
 
+  _i3.DormInclude? _dorm;
+
+  _i3.DormJoinRequestIncludeList? _incomingJoinRequests;
+
   @override
-  Map<String, _i1.Include?> get includes => {'userInfo': _userInfo};
+  Map<String, _i1.Include?> get includes => {
+        'userInfo': _userInfo,
+        'dorm': _dorm,
+        'incomingJoinRequests': _incomingJoinRequests,
+      };
 
   @override
   _i1.Table get table => User.t;
@@ -208,7 +342,11 @@ class UserIncludeList extends _i1.IncludeList {
 class UserRepository {
   const UserRepository._();
 
+  final attach = const UserAttachRepository._();
+
   final attachRow = const UserAttachRowRepository._();
+
+  final detachRow = const UserDetachRowRepository._();
 
   Future<List<User>> find(
     _i1.DatabaseAccessor databaseAccessor, {
@@ -362,6 +500,32 @@ class UserRepository {
   }
 }
 
+class UserAttachRepository {
+  const UserAttachRepository._();
+
+  Future<void> incomingJoinRequests(
+    _i1.DatabaseAccessor databaseAccessor,
+    User user,
+    List<_i3.DormJoinRequest> dormJoinRequest, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (dormJoinRequest.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('dormJoinRequest.id');
+    }
+    if (user.id == null) {
+      throw ArgumentError.notNull('user.id');
+    }
+
+    var $dormJoinRequest =
+        dormJoinRequest.map((e) => e.copyWith(userId: user.id)).toList();
+    await databaseAccessor.db.update<_i3.DormJoinRequest>(
+      $dormJoinRequest,
+      columns: [_i3.DormJoinRequest.t.userId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
+}
+
 class UserAttachRowRepository {
   const UserAttachRowRepository._();
 
@@ -382,6 +546,69 @@ class UserAttachRowRepository {
     await databaseAccessor.db.updateRow<User>(
       $user,
       columns: [User.t.userInfoId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
+
+  Future<void> dorm(
+    _i1.DatabaseAccessor databaseAccessor,
+    User user,
+    _i3.Dorm dorm, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (user.id == null) {
+      throw ArgumentError.notNull('user.id');
+    }
+    if (dorm.id == null) {
+      throw ArgumentError.notNull('dorm.id');
+    }
+
+    var $user = user.copyWith(dormId: dorm.id);
+    await databaseAccessor.db.updateRow<User>(
+      $user,
+      columns: [User.t.dormId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
+
+  Future<void> incomingJoinRequests(
+    _i1.DatabaseAccessor databaseAccessor,
+    User user,
+    _i3.DormJoinRequest dormJoinRequest, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (dormJoinRequest.id == null) {
+      throw ArgumentError.notNull('dormJoinRequest.id');
+    }
+    if (user.id == null) {
+      throw ArgumentError.notNull('user.id');
+    }
+
+    var $dormJoinRequest = dormJoinRequest.copyWith(userId: user.id);
+    await databaseAccessor.db.updateRow<_i3.DormJoinRequest>(
+      $dormJoinRequest,
+      columns: [_i3.DormJoinRequest.t.userId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
+}
+
+class UserDetachRowRepository {
+  const UserDetachRowRepository._();
+
+  Future<void> dorm(
+    _i1.DatabaseAccessor databaseAccessor,
+    User user, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (user.id == null) {
+      throw ArgumentError.notNull('user.id');
+    }
+
+    var $user = user.copyWith(dormId: null);
+    await databaseAccessor.db.updateRow<User>(
+      $user,
+      columns: [User.t.dormId],
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }

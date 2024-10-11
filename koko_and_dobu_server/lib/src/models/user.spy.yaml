@@ -2,6 +2,9 @@ class: User
 table: user  
 fields:  
   userInfo: module:auth:UserInfo?, relation  
+  dorm: Dorm?, relation(name=dorm_members, optional)
+  incomingJoinRequests: List<DormJoinRequest>?, relation(name=dorm_join_request_recipient)
+
 indexes:  
   user_info_id_unique_idx:  
     fields: userInfoId  

@@ -11,29 +11,114 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i3;
-import 'protocol.dart' as _i4;
+import 'package:koko_and_dobu_client/src/protocol/dorm.dart' as _i3;
+import 'package:koko_and_dobu_client/src/protocol/user.dart' as _i4;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
+import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
-class EndpointExample extends _i1.EndpointRef {
-  EndpointExample(_i1.EndpointCaller caller) : super(caller);
+class EndpointAdmin extends _i1.EndpointRef {
+  EndpointAdmin(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'example';
+  String get name => 'admin';
 
-  _i2.Future<String> hello(String name) => caller.callServerEndpoint<String>(
-        'example',
-        'hello',
-        {'name': name},
+  _i2.Future<void> makeAdmin(int userId) => caller.callServerEndpoint<void>(
+        'admin',
+        'makeAdmin',
+        {'userId': userId},
+      );
+
+  _i2.Future<void> removeAdmin(int userId) => caller.callServerEndpoint<void>(
+        'admin',
+        'removeAdmin',
+        {'userId': userId},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointDorm extends _i1.EndpointRef {
+  EndpointDorm(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'dorm';
+
+  _i2.Future<_i3.Dorm> createDorm(
+    double lat,
+    double long,
+    String? websiteUrl,
+  ) =>
+      caller.callServerEndpoint<_i3.Dorm>(
+        'dorm',
+        'createDorm',
+        {
+          'lat': lat,
+          'long': long,
+          'websiteUrl': websiteUrl,
+        },
+      );
+
+  _i2.Future<void> sendDormJoinRequest(
+    int dormId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'dorm',
+        'sendDormJoinRequest',
+        {
+          'dormId': dormId,
+          'userId': userId,
+        },
+      );
+
+  _i2.Future<void> acceptDormJoinRequest(
+    int dormId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'dorm',
+        'acceptDormJoinRequest',
+        {
+          'dormId': dormId,
+          'userId': userId,
+        },
+      );
+
+  _i2.Future<void> denyDormJoinRequest(
+    int dormId,
+    int userId,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'dorm',
+        'denyDormJoinRequest',
+        {
+          'dormId': dormId,
+          'userId': userId,
+        },
+      );
+}
+
+/// {@category Endpoint}
+class EndpointUser extends _i1.EndpointRef {
+  EndpointUser(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'user';
+
+  _i2.Future<_i4.User> getUserById(int userId) =>
+      caller.callServerEndpoint<_i4.User>(
+        'user',
+        'getUserById',
+        {'userId': userId},
       );
 }
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i3.Caller(client);
+    auth = _i5.Caller(client);
   }
 
-  late final _i3.Caller auth;
+  late final _i5.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -52,7 +137,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i4.Protocol(),
+          _i6.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -62,16 +147,26 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
-    example = EndpointExample(this);
+    admin = EndpointAdmin(this);
+    dorm = EndpointDorm(this);
+    user = EndpointUser(this);
     modules = _Modules(this);
   }
 
-  late final EndpointExample example;
+  late final EndpointAdmin admin;
+
+  late final EndpointDorm dorm;
+
+  late final EndpointUser user;
 
   late final _Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'example': example};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'admin': admin,
+        'dorm': dorm,
+        'user': user,
+      };
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>

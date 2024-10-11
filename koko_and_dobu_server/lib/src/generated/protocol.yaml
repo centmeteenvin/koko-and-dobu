@@ -1,2 +1,10 @@
-example:
-  - hello:
+admin:
+  - makeAdmin:
+  - removeAdmin:
+dorm:
+  - createDorm:
+  - sendDormJoinRequest:
+  - acceptDormJoinRequest:
+  - denyDormJoinRequest:
+user:
+  - getUserById:
