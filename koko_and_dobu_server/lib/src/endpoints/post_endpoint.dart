@@ -25,4 +25,15 @@ class PostEndpoint extends Endpoint {
     }
     await Post.db.deleteRow(session, post);
   }
+
+  Future<void> seenBy(Session session, int postId, int userId) async {
+    final post = await PostService.getPostById(session, postId);
+    final user = await UserService.getUserById(session, userId);
+    if (user.dormId != post.dormId) {
+      throw Exception(
+        'User $userId cannot have seen post $postId because the users dorm ${user.dormId} does not correspond with the posts dorm ${post.dormId}',
+      );
+    }
+    await Post.db.attachRow.seenBy(session, post, user);
+  }
 }
