@@ -13,17 +13,17 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
-import 'dorm.dart' as _i4;
-import 'dorm_join_request.dart' as _i5;
-import 'dto/user_data.dart' as _i6;
-import 'post.dart' as _i7;
-import 'user.dart' as _i8;
+import 'dorm/dorm.dart' as _i4;
+import 'dorm_join_request/dorm_join_request.dart' as _i5;
+import 'post/post.dart' as _i6;
+import 'user/user.dart' as _i7;
+import 'user/user_data.dart' as _i8;
 import 'protocol.dart' as _i9;
-export 'dorm.dart';
-export 'dorm_join_request.dart';
-export 'dto/user_data.dart';
-export 'post.dart';
-export 'user.dart';
+export 'dorm/dorm.dart';
+export 'dorm_join_request/dorm_join_request.dart';
+export 'post/post.dart';
+export 'user/user.dart';
+export 'user/user_data.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -355,14 +355,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i5.DormJoinRequest) {
       return _i5.DormJoinRequest.fromJson(data) as T;
     }
-    if (t == _i6.UserData) {
-      return _i6.UserData.fromJson(data) as T;
+    if (t == _i6.Post) {
+      return _i6.Post.fromJson(data) as T;
     }
-    if (t == _i7.Post) {
-      return _i7.Post.fromJson(data) as T;
+    if (t == _i7.User) {
+      return _i7.User.fromJson(data) as T;
     }
-    if (t == _i8.User) {
-      return _i8.User.fromJson(data) as T;
+    if (t == _i8.UserData) {
+      return _i8.UserData.fromJson(data) as T;
     }
     if (t == _i1.getType<_i4.Dorm?>()) {
       return (data != null ? _i4.Dorm.fromJson(data) : null) as T;
@@ -370,14 +370,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i5.DormJoinRequest?>()) {
       return (data != null ? _i5.DormJoinRequest.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.UserData?>()) {
-      return (data != null ? _i6.UserData.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.Post?>()) {
+      return (data != null ? _i6.Post.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i7.Post?>()) {
-      return (data != null ? _i7.Post.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i7.User?>()) {
+      return (data != null ? _i7.User.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i8.User?>()) {
-      return (data != null ? _i8.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i8.UserData?>()) {
+      return (data != null ? _i8.UserData.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<List<_i9.User>?>()) {
       return (data != null
@@ -396,15 +396,15 @@ class Protocol extends _i1.SerializationManagerServer {
           ? (data as List).map((e) => deserialize<_i9.Post>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<int>) {
-      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
-    }
     if (t == _i1.getType<List<_i9.DormJoinRequest>?>()) {
       return (data != null
           ? (data as List)
               .map((e) => deserialize<_i9.DormJoinRequest>(e))
               .toList()
           : null) as dynamic;
+    }
+    if (t == List<int>) {
+      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -425,14 +425,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i5.DormJoinRequest) {
       return 'DormJoinRequest';
     }
-    if (data is _i6.UserData) {
-      return 'UserData';
-    }
-    if (data is _i7.Post) {
+    if (data is _i6.Post) {
       return 'Post';
     }
-    if (data is _i8.User) {
+    if (data is _i7.User) {
       return 'User';
+    }
+    if (data is _i8.UserData) {
+      return 'UserData';
     }
     className = _i2.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -453,14 +453,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'DormJoinRequest') {
       return deserialize<_i5.DormJoinRequest>(data['data']);
     }
-    if (data['className'] == 'UserData') {
-      return deserialize<_i6.UserData>(data['data']);
-    }
     if (data['className'] == 'Post') {
-      return deserialize<_i7.Post>(data['data']);
+      return deserialize<_i6.Post>(data['data']);
     }
     if (data['className'] == 'User') {
-      return deserialize<_i8.User>(data['data']);
+      return deserialize<_i7.User>(data['data']);
+    }
+    if (data['className'] == 'UserData') {
+      return deserialize<_i8.UserData>(data['data']);
     }
     if (data['className'].startsWith('serverpod.')) {
       data['className'] = data['className'].substring(10);
@@ -492,10 +492,10 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i4.Dorm.t;
       case _i5.DormJoinRequest:
         return _i5.DormJoinRequest.t;
-      case _i7.Post:
-        return _i7.Post.t;
-      case _i8.User:
-        return _i8.User.t;
+      case _i6.Post:
+        return _i6.Post.t;
+      case _i7.User:
+        return _i7.User.t;
     }
     return null;
   }

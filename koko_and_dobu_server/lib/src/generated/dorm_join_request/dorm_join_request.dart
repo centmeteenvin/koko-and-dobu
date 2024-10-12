@@ -10,51 +10,45 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import 'protocol.dart' as _i2;
+import '../protocol.dart' as _i2;
 
-abstract class Post implements _i1.TableRow, _i1.ProtocolSerialization {
-  Post._({
+abstract class DormJoinRequest
+    implements _i1.TableRow, _i1.ProtocolSerialization {
+  DormJoinRequest._({
     this.id,
     required this.dormId,
     this.dorm,
-    required this.createdById,
-    this.createdBy,
-    required this.message,
-    required this.datePosted,
+    required this.userId,
+    this.user,
   });
 
-  factory Post({
+  factory DormJoinRequest({
     int? id,
     required int dormId,
     _i2.Dorm? dorm,
-    required int createdById,
-    _i2.User? createdBy,
-    required String message,
-    required DateTime datePosted,
-  }) = _PostImpl;
+    required int userId,
+    _i2.User? user,
+  }) = _DormJoinRequestImpl;
 
-  factory Post.fromJson(Map<String, dynamic> jsonSerialization) {
-    return Post(
+  factory DormJoinRequest.fromJson(Map<String, dynamic> jsonSerialization) {
+    return DormJoinRequest(
       id: jsonSerialization['id'] as int?,
       dormId: jsonSerialization['dormId'] as int,
       dorm: jsonSerialization['dorm'] == null
           ? null
           : _i2.Dorm.fromJson(
               (jsonSerialization['dorm'] as Map<String, dynamic>)),
-      createdById: jsonSerialization['createdById'] as int,
-      createdBy: jsonSerialization['createdBy'] == null
+      userId: jsonSerialization['userId'] as int,
+      user: jsonSerialization['user'] == null
           ? null
           : _i2.User.fromJson(
-              (jsonSerialization['createdBy'] as Map<String, dynamic>)),
-      message: jsonSerialization['message'] as String,
-      datePosted:
-          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['datePosted']),
+              (jsonSerialization['user'] as Map<String, dynamic>)),
     );
   }
 
-  static final t = PostTable();
+  static final t = DormJoinRequestTable();
 
-  static const db = PostRepository._();
+  static const db = DormJoinRequestRepository._();
 
   @override
   int? id;
@@ -63,25 +57,19 @@ abstract class Post implements _i1.TableRow, _i1.ProtocolSerialization {
 
   _i2.Dorm? dorm;
 
-  int createdById;
+  int userId;
 
-  _i2.User? createdBy;
-
-  String message;
-
-  DateTime datePosted;
+  _i2.User? user;
 
   @override
   _i1.Table get table => t;
 
-  Post copyWith({
+  DormJoinRequest copyWith({
     int? id,
     int? dormId,
     _i2.Dorm? dorm,
-    int? createdById,
-    _i2.User? createdBy,
-    String? message,
-    DateTime? datePosted,
+    int? userId,
+    _i2.User? user,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -89,10 +77,8 @@ abstract class Post implements _i1.TableRow, _i1.ProtocolSerialization {
       if (id != null) 'id': id,
       'dormId': dormId,
       if (dorm != null) 'dorm': dorm?.toJson(),
-      'createdById': createdById,
-      if (createdBy != null) 'createdBy': createdBy?.toJson(),
-      'message': message,
-      'datePosted': datePosted.toJson(),
+      'userId': userId,
+      if (user != null) 'user': user?.toJson(),
     };
   }
 
@@ -102,39 +88,37 @@ abstract class Post implements _i1.TableRow, _i1.ProtocolSerialization {
       if (id != null) 'id': id,
       'dormId': dormId,
       if (dorm != null) 'dorm': dorm?.toJsonForProtocol(),
-      'createdById': createdById,
-      if (createdBy != null) 'createdBy': createdBy?.toJsonForProtocol(),
-      'message': message,
-      'datePosted': datePosted.toJson(),
+      'userId': userId,
+      if (user != null) 'user': user?.toJsonForProtocol(),
     };
   }
 
-  static PostInclude include({
+  static DormJoinRequestInclude include({
     _i2.DormInclude? dorm,
-    _i2.UserInclude? createdBy,
+    _i2.UserInclude? user,
   }) {
-    return PostInclude._(
+    return DormJoinRequestInclude._(
       dorm: dorm,
-      createdBy: createdBy,
+      user: user,
     );
   }
 
-  static PostIncludeList includeList({
-    _i1.WhereExpressionBuilder<PostTable>? where,
+  static DormJoinRequestIncludeList includeList({
+    _i1.WhereExpressionBuilder<DormJoinRequestTable>? where,
     int? limit,
     int? offset,
-    _i1.OrderByBuilder<PostTable>? orderBy,
+    _i1.OrderByBuilder<DormJoinRequestTable>? orderBy,
     bool orderDescending = false,
-    _i1.OrderByListBuilder<PostTable>? orderByList,
-    PostInclude? include,
+    _i1.OrderByListBuilder<DormJoinRequestTable>? orderByList,
+    DormJoinRequestInclude? include,
   }) {
-    return PostIncludeList._(
+    return DormJoinRequestIncludeList._(
       where: where,
       limit: limit,
       offset: offset,
-      orderBy: orderBy?.call(Post.t),
+      orderBy: orderBy?.call(DormJoinRequest.t),
       orderDescending: orderDescending,
-      orderByList: orderByList?.call(Post.t),
+      orderByList: orderByList?.call(DormJoinRequest.t),
       include: include,
     );
   }
@@ -147,64 +131,48 @@ abstract class Post implements _i1.TableRow, _i1.ProtocolSerialization {
 
 class _Undefined {}
 
-class _PostImpl extends Post {
-  _PostImpl({
+class _DormJoinRequestImpl extends DormJoinRequest {
+  _DormJoinRequestImpl({
     int? id,
     required int dormId,
     _i2.Dorm? dorm,
-    required int createdById,
-    _i2.User? createdBy,
-    required String message,
-    required DateTime datePosted,
+    required int userId,
+    _i2.User? user,
   }) : super._(
           id: id,
           dormId: dormId,
           dorm: dorm,
-          createdById: createdById,
-          createdBy: createdBy,
-          message: message,
-          datePosted: datePosted,
+          userId: userId,
+          user: user,
         );
 
   @override
-  Post copyWith({
+  DormJoinRequest copyWith({
     Object? id = _Undefined,
     int? dormId,
     Object? dorm = _Undefined,
-    int? createdById,
-    Object? createdBy = _Undefined,
-    String? message,
-    DateTime? datePosted,
+    int? userId,
+    Object? user = _Undefined,
   }) {
-    return Post(
+    return DormJoinRequest(
       id: id is int? ? id : this.id,
       dormId: dormId ?? this.dormId,
       dorm: dorm is _i2.Dorm? ? dorm : this.dorm?.copyWith(),
-      createdById: createdById ?? this.createdById,
-      createdBy:
-          createdBy is _i2.User? ? createdBy : this.createdBy?.copyWith(),
-      message: message ?? this.message,
-      datePosted: datePosted ?? this.datePosted,
+      userId: userId ?? this.userId,
+      user: user is _i2.User? ? user : this.user?.copyWith(),
     );
   }
 }
 
-class PostTable extends _i1.Table {
-  PostTable({super.tableRelation}) : super(tableName: 'post') {
+class DormJoinRequestTable extends _i1.Table {
+  DormJoinRequestTable({super.tableRelation})
+      : super(tableName: 'dorm_join_request') {
     dormId = _i1.ColumnInt(
       'dormId',
       this,
     );
-    createdById = _i1.ColumnInt(
-      'createdById',
-      this,
-    );
-    message = _i1.ColumnString(
-      'message',
-      this,
-    );
-    datePosted = _i1.ColumnDateTime(
-      'datePosted',
+    userId = _i1.ColumnInt(
+      'userId',
       this,
     );
   }
@@ -213,19 +181,15 @@ class PostTable extends _i1.Table {
 
   _i2.DormTable? _dorm;
 
-  late final _i1.ColumnInt createdById;
+  late final _i1.ColumnInt userId;
 
-  _i2.UserTable? _createdBy;
-
-  late final _i1.ColumnString message;
-
-  late final _i1.ColumnDateTime datePosted;
+  _i2.UserTable? _user;
 
   _i2.DormTable get dorm {
     if (_dorm != null) return _dorm!;
     _dorm = _i1.createRelationTable(
       relationFieldName: 'dorm',
-      field: Post.t.dormId,
+      field: DormJoinRequest.t.dormId,
       foreignField: _i2.Dorm.t.id,
       tableRelation: tableRelation,
       createTable: (foreignTableRelation) =>
@@ -234,26 +198,24 @@ class PostTable extends _i1.Table {
     return _dorm!;
   }
 
-  _i2.UserTable get createdBy {
-    if (_createdBy != null) return _createdBy!;
-    _createdBy = _i1.createRelationTable(
-      relationFieldName: 'createdBy',
-      field: Post.t.createdById,
+  _i2.UserTable get user {
+    if (_user != null) return _user!;
+    _user = _i1.createRelationTable(
+      relationFieldName: 'user',
+      field: DormJoinRequest.t.userId,
       foreignField: _i2.User.t.id,
       tableRelation: tableRelation,
       createTable: (foreignTableRelation) =>
           _i2.UserTable(tableRelation: foreignTableRelation),
     );
-    return _createdBy!;
+    return _user!;
   }
 
   @override
   List<_i1.Column> get columns => [
         id,
         dormId,
-        createdById,
-        message,
-        datePosted,
+        userId,
       ];
 
   @override
@@ -261,39 +223,39 @@ class PostTable extends _i1.Table {
     if (relationField == 'dorm') {
       return dorm;
     }
-    if (relationField == 'createdBy') {
-      return createdBy;
+    if (relationField == 'user') {
+      return user;
     }
     return null;
   }
 }
 
-class PostInclude extends _i1.IncludeObject {
-  PostInclude._({
+class DormJoinRequestInclude extends _i1.IncludeObject {
+  DormJoinRequestInclude._({
     _i2.DormInclude? dorm,
-    _i2.UserInclude? createdBy,
+    _i2.UserInclude? user,
   }) {
     _dorm = dorm;
-    _createdBy = createdBy;
+    _user = user;
   }
 
   _i2.DormInclude? _dorm;
 
-  _i2.UserInclude? _createdBy;
+  _i2.UserInclude? _user;
 
   @override
   Map<String, _i1.Include?> get includes => {
         'dorm': _dorm,
-        'createdBy': _createdBy,
+        'user': _user,
       };
 
   @override
-  _i1.Table get table => Post.t;
+  _i1.Table get table => DormJoinRequest.t;
 }
 
-class PostIncludeList extends _i1.IncludeList {
-  PostIncludeList._({
-    _i1.WhereExpressionBuilder<PostTable>? where,
+class DormJoinRequestIncludeList extends _i1.IncludeList {
+  DormJoinRequestIncludeList._({
+    _i1.WhereExpressionBuilder<DormJoinRequestTable>? where,
     super.limit,
     super.offset,
     super.orderBy,
@@ -301,36 +263,36 @@ class PostIncludeList extends _i1.IncludeList {
     super.orderByList,
     super.include,
   }) {
-    super.where = where?.call(Post.t);
+    super.where = where?.call(DormJoinRequest.t);
   }
 
   @override
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => Post.t;
+  _i1.Table get table => DormJoinRequest.t;
 }
 
-class PostRepository {
-  const PostRepository._();
+class DormJoinRequestRepository {
+  const DormJoinRequestRepository._();
 
-  final attachRow = const PostAttachRowRepository._();
+  final attachRow = const DormJoinRequestAttachRowRepository._();
 
-  Future<List<Post>> find(
+  Future<List<DormJoinRequest>> find(
     _i1.DatabaseAccessor databaseAccessor, {
-    _i1.WhereExpressionBuilder<PostTable>? where,
+    _i1.WhereExpressionBuilder<DormJoinRequestTable>? where,
     int? limit,
     int? offset,
-    _i1.OrderByBuilder<PostTable>? orderBy,
+    _i1.OrderByBuilder<DormJoinRequestTable>? orderBy,
     bool orderDescending = false,
-    _i1.OrderByListBuilder<PostTable>? orderByList,
+    _i1.OrderByListBuilder<DormJoinRequestTable>? orderByList,
     _i1.Transaction? transaction,
-    PostInclude? include,
+    DormJoinRequestInclude? include,
   }) async {
-    return databaseAccessor.db.find<Post>(
-      where: where?.call(Post.t),
-      orderBy: orderBy?.call(Post.t),
-      orderByList: orderByList?.call(Post.t),
+    return databaseAccessor.db.find<DormJoinRequest>(
+      where: where?.call(DormJoinRequest.t),
+      orderBy: orderBy?.call(DormJoinRequest.t),
+      orderByList: orderByList?.call(DormJoinRequest.t),
       orderDescending: orderDescending,
       limit: limit,
       offset: offset,
@@ -339,20 +301,20 @@ class PostRepository {
     );
   }
 
-  Future<Post?> findFirstRow(
+  Future<DormJoinRequest?> findFirstRow(
     _i1.DatabaseAccessor databaseAccessor, {
-    _i1.WhereExpressionBuilder<PostTable>? where,
+    _i1.WhereExpressionBuilder<DormJoinRequestTable>? where,
     int? offset,
-    _i1.OrderByBuilder<PostTable>? orderBy,
+    _i1.OrderByBuilder<DormJoinRequestTable>? orderBy,
     bool orderDescending = false,
-    _i1.OrderByListBuilder<PostTable>? orderByList,
+    _i1.OrderByListBuilder<DormJoinRequestTable>? orderByList,
     _i1.Transaction? transaction,
-    PostInclude? include,
+    DormJoinRequestInclude? include,
   }) async {
-    return databaseAccessor.db.findFirstRow<Post>(
-      where: where?.call(Post.t),
-      orderBy: orderBy?.call(Post.t),
-      orderByList: orderByList?.call(Post.t),
+    return databaseAccessor.db.findFirstRow<DormJoinRequest>(
+      where: where?.call(DormJoinRequest.t),
+      orderBy: orderBy?.call(DormJoinRequest.t),
+      orderByList: orderByList?.call(DormJoinRequest.t),
       orderDescending: orderDescending,
       offset: offset,
       transaction: transaction ?? databaseAccessor.transaction,
@@ -360,155 +322,155 @@ class PostRepository {
     );
   }
 
-  Future<Post?> findById(
+  Future<DormJoinRequest?> findById(
     _i1.DatabaseAccessor databaseAccessor,
     int id, {
     _i1.Transaction? transaction,
-    PostInclude? include,
+    DormJoinRequestInclude? include,
   }) async {
-    return databaseAccessor.db.findById<Post>(
+    return databaseAccessor.db.findById<DormJoinRequest>(
       id,
       transaction: transaction ?? databaseAccessor.transaction,
       include: include,
     );
   }
 
-  Future<List<Post>> insert(
+  Future<List<DormJoinRequest>> insert(
     _i1.DatabaseAccessor databaseAccessor,
-    List<Post> rows, {
+    List<DormJoinRequest> rows, {
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.insert<Post>(
+    return databaseAccessor.db.insert<DormJoinRequest>(
       rows,
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
-  Future<Post> insertRow(
+  Future<DormJoinRequest> insertRow(
     _i1.DatabaseAccessor databaseAccessor,
-    Post row, {
+    DormJoinRequest row, {
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.insertRow<Post>(
+    return databaseAccessor.db.insertRow<DormJoinRequest>(
       row,
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
-  Future<List<Post>> update(
+  Future<List<DormJoinRequest>> update(
     _i1.DatabaseAccessor databaseAccessor,
-    List<Post> rows, {
-    _i1.ColumnSelections<PostTable>? columns,
+    List<DormJoinRequest> rows, {
+    _i1.ColumnSelections<DormJoinRequestTable>? columns,
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.update<Post>(
+    return databaseAccessor.db.update<DormJoinRequest>(
       rows,
-      columns: columns?.call(Post.t),
+      columns: columns?.call(DormJoinRequest.t),
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
-  Future<Post> updateRow(
+  Future<DormJoinRequest> updateRow(
     _i1.DatabaseAccessor databaseAccessor,
-    Post row, {
-    _i1.ColumnSelections<PostTable>? columns,
+    DormJoinRequest row, {
+    _i1.ColumnSelections<DormJoinRequestTable>? columns,
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.updateRow<Post>(
+    return databaseAccessor.db.updateRow<DormJoinRequest>(
       row,
-      columns: columns?.call(Post.t),
+      columns: columns?.call(DormJoinRequest.t),
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
-  Future<List<Post>> delete(
+  Future<List<DormJoinRequest>> delete(
     _i1.DatabaseAccessor databaseAccessor,
-    List<Post> rows, {
+    List<DormJoinRequest> rows, {
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.delete<Post>(
+    return databaseAccessor.db.delete<DormJoinRequest>(
       rows,
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
-  Future<Post> deleteRow(
+  Future<DormJoinRequest> deleteRow(
     _i1.DatabaseAccessor databaseAccessor,
-    Post row, {
+    DormJoinRequest row, {
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.deleteRow<Post>(
+    return databaseAccessor.db.deleteRow<DormJoinRequest>(
       row,
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
-  Future<List<Post>> deleteWhere(
+  Future<List<DormJoinRequest>> deleteWhere(
     _i1.DatabaseAccessor databaseAccessor, {
-    required _i1.WhereExpressionBuilder<PostTable> where,
+    required _i1.WhereExpressionBuilder<DormJoinRequestTable> where,
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.deleteWhere<Post>(
-      where: where(Post.t),
+    return databaseAccessor.db.deleteWhere<DormJoinRequest>(
+      where: where(DormJoinRequest.t),
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
   Future<int> count(
     _i1.DatabaseAccessor databaseAccessor, {
-    _i1.WhereExpressionBuilder<PostTable>? where,
+    _i1.WhereExpressionBuilder<DormJoinRequestTable>? where,
     int? limit,
     _i1.Transaction? transaction,
   }) async {
-    return databaseAccessor.db.count<Post>(
-      where: where?.call(Post.t),
+    return databaseAccessor.db.count<DormJoinRequest>(
+      where: where?.call(DormJoinRequest.t),
       limit: limit,
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 }
 
-class PostAttachRowRepository {
-  const PostAttachRowRepository._();
+class DormJoinRequestAttachRowRepository {
+  const DormJoinRequestAttachRowRepository._();
 
   Future<void> dorm(
     _i1.DatabaseAccessor databaseAccessor,
-    Post post,
+    DormJoinRequest dormJoinRequest,
     _i2.Dorm dorm, {
     _i1.Transaction? transaction,
   }) async {
-    if (post.id == null) {
-      throw ArgumentError.notNull('post.id');
+    if (dormJoinRequest.id == null) {
+      throw ArgumentError.notNull('dormJoinRequest.id');
     }
     if (dorm.id == null) {
       throw ArgumentError.notNull('dorm.id');
     }
 
-    var $post = post.copyWith(dormId: dorm.id);
-    await databaseAccessor.db.updateRow<Post>(
-      $post,
-      columns: [Post.t.dormId],
+    var $dormJoinRequest = dormJoinRequest.copyWith(dormId: dorm.id);
+    await databaseAccessor.db.updateRow<DormJoinRequest>(
+      $dormJoinRequest,
+      columns: [DormJoinRequest.t.dormId],
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
 
-  Future<void> createdBy(
+  Future<void> user(
     _i1.DatabaseAccessor databaseAccessor,
-    Post post,
-    _i2.User createdBy, {
+    DormJoinRequest dormJoinRequest,
+    _i2.User user, {
     _i1.Transaction? transaction,
   }) async {
-    if (post.id == null) {
-      throw ArgumentError.notNull('post.id');
+    if (dormJoinRequest.id == null) {
+      throw ArgumentError.notNull('dormJoinRequest.id');
     }
-    if (createdBy.id == null) {
-      throw ArgumentError.notNull('createdBy.id');
+    if (user.id == null) {
+      throw ArgumentError.notNull('user.id');
     }
 
-    var $post = post.copyWith(createdById: createdBy.id);
-    await databaseAccessor.db.updateRow<Post>(
-      $post,
-      columns: [Post.t.createdById],
+    var $dormJoinRequest = dormJoinRequest.copyWith(userId: user.id);
+    await databaseAccessor.db.updateRow<DormJoinRequest>(
+      $dormJoinRequest,
+      columns: [DormJoinRequest.t.userId],
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }

@@ -11,9 +11,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:koko_and_dobu_client/src/protocol/dorm.dart' as _i3;
-import 'package:koko_and_dobu_client/src/protocol/post.dart' as _i4;
-import 'package:koko_and_dobu_client/src/protocol/dto/user_data.dart' as _i5;
+import 'package:koko_and_dobu_client/src/protocol/dorm/dorm.dart' as _i3;
+import 'package:koko_and_dobu_client/src/protocol/post/post.dart' as _i4;
+import 'package:koko_and_dobu_client/src/protocol/user/user_data.dart' as _i5;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
 import 'protocol.dart' as _i7;
 

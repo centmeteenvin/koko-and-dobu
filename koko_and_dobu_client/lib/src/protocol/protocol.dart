@@ -11,18 +11,18 @@
 library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'dorm.dart' as _i2;
-import 'dorm_join_request.dart' as _i3;
-import 'dto/user_data.dart' as _i4;
-import 'post.dart' as _i5;
-import 'user.dart' as _i6;
+import 'dorm/dorm.dart' as _i2;
+import 'dorm_join_request/dorm_join_request.dart' as _i3;
+import 'post/post.dart' as _i4;
+import 'user/user.dart' as _i5;
+import 'user/user_data.dart' as _i6;
 import 'protocol.dart' as _i7;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i8;
-export 'dorm.dart';
-export 'dorm_join_request.dart';
-export 'dto/user_data.dart';
-export 'post.dart';
-export 'user.dart';
+export 'dorm/dorm.dart';
+export 'dorm_join_request/dorm_join_request.dart';
+export 'post/post.dart';
+export 'user/user.dart';
+export 'user/user_data.dart';
 export 'client.dart';
 
 class Protocol extends _i1.SerializationManager {
@@ -44,14 +44,14 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i3.DormJoinRequest) {
       return _i3.DormJoinRequest.fromJson(data) as T;
     }
-    if (t == _i4.UserData) {
-      return _i4.UserData.fromJson(data) as T;
+    if (t == _i4.Post) {
+      return _i4.Post.fromJson(data) as T;
     }
-    if (t == _i5.Post) {
-      return _i5.Post.fromJson(data) as T;
+    if (t == _i5.User) {
+      return _i5.User.fromJson(data) as T;
     }
-    if (t == _i6.User) {
-      return _i6.User.fromJson(data) as T;
+    if (t == _i6.UserData) {
+      return _i6.UserData.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.Dorm?>()) {
       return (data != null ? _i2.Dorm.fromJson(data) : null) as T;
@@ -59,14 +59,14 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i3.DormJoinRequest?>()) {
       return (data != null ? _i3.DormJoinRequest.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.UserData?>()) {
-      return (data != null ? _i4.UserData.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.Post?>()) {
+      return (data != null ? _i4.Post.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.Post?>()) {
-      return (data != null ? _i5.Post.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.User?>()) {
+      return (data != null ? _i5.User.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.User?>()) {
-      return (data != null ? _i6.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.UserData?>()) {
+      return (data != null ? _i6.UserData.fromJson(data) : null) as T;
     }
     if (t == _i1.getType<List<_i7.User>?>()) {
       return (data != null
@@ -85,15 +85,15 @@ class Protocol extends _i1.SerializationManager {
           ? (data as List).map((e) => deserialize<_i7.Post>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<int>) {
-      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
-    }
     if (t == _i1.getType<List<_i7.DormJoinRequest>?>()) {
       return (data != null
           ? (data as List)
               .map((e) => deserialize<_i7.DormJoinRequest>(e))
               .toList()
           : null) as dynamic;
+    }
+    if (t == List<int>) {
+      return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
     try {
       return _i8.Protocol().deserialize<T>(data, t);
@@ -111,14 +111,14 @@ class Protocol extends _i1.SerializationManager {
     if (data is _i3.DormJoinRequest) {
       return 'DormJoinRequest';
     }
-    if (data is _i4.UserData) {
-      return 'UserData';
-    }
-    if (data is _i5.Post) {
+    if (data is _i4.Post) {
       return 'Post';
     }
-    if (data is _i6.User) {
+    if (data is _i5.User) {
       return 'User';
+    }
+    if (data is _i6.UserData) {
+      return 'UserData';
     }
     className = _i8.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -135,14 +135,14 @@ class Protocol extends _i1.SerializationManager {
     if (data['className'] == 'DormJoinRequest') {
       return deserialize<_i3.DormJoinRequest>(data['data']);
     }
-    if (data['className'] == 'UserData') {
-      return deserialize<_i4.UserData>(data['data']);
-    }
     if (data['className'] == 'Post') {
-      return deserialize<_i5.Post>(data['data']);
+      return deserialize<_i4.Post>(data['data']);
     }
     if (data['className'] == 'User') {
-      return deserialize<_i6.User>(data['data']);
+      return deserialize<_i5.User>(data['data']);
+    }
+    if (data['className'] == 'UserData') {
+      return deserialize<_i6.UserData>(data['data']);
     }
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);

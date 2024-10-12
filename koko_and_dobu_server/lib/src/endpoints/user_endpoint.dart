@@ -1,5 +1,5 @@
 import 'package:koko_and_dobu_server/src/generated/protocol.dart';
-import 'package:koko_and_dobu_server/src/models/dto/user_data_mapper.dart';
+import 'package:koko_and_dobu_server/src/models/user/user_data_mapper.dart';
 import 'package:koko_and_dobu_server/src/services/user_service.dart';
 import 'package:serverpod/serverpod.dart';
 
