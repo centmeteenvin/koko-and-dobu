@@ -1,0 +1,8 @@
+class: Post
+table: post
+fields:
+    dorm: Dorm?, relation(name=dorm_post, onDelete=cascade)
+    createdBy: User?, relation(onDelete=cascade)
+    message: String
+    datePosted: DateTime
+

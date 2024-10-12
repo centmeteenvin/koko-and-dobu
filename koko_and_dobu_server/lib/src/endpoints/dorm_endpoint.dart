@@ -8,6 +8,36 @@ class DormEndpoint extends Endpoint {
   @override
   bool get requireLogin => true;
 
+  Future<void> acceptDormJoinRequest(Session session, int dormId, int userId) async {
+    final user = await UserService.getUserById(session, userId);
+    if (user.dormId != null) {
+      throw Exception("This user already is part of a dorm");
+    }
+
+    final request = await DormJoinRequest.db.findFirstRow(
+      session,
+      where: (request) => request.dormId.equals(dormId) & request.userId.equals(userId),
+    );
+
+    if (request == null) {
+      throw Exception("User $userId tried to join dorm $dormId while no request was send");
+    }
+
+    final dorm = await DormService.getDormById(session, dormId, include: Dorm.include(members: User.includeList()));
+    if (dorm.members!.any((member) => member.id! == userId)) {
+      throw StateError("The user $userId tried to accept an invitation to the dorm $dormId while they already were a port of this dorm");
+    }
+
+    final result = await session.db.transaction((transaction) async {
+      await DormJoinRequest.db.deleteWhere(session, where: (request) => request.userId.equals(userId));
+      await Dorm.db.attachRow.members(session, dorm, user, transaction: transaction);
+      return true;
+    });
+    if (!result) {
+      throw Exception("An exception occurred while joining the dorm, try again");
+    }
+  }
+
   Future<Dorm> createDorm(
     Session session, {
     required double lat,
@@ -33,8 +63,17 @@ class DormEndpoint extends Endpoint {
     return dorm;
   }
 
+  Future<void> denyDormJoinRequest(Session session, int dormId, int userId) async {
+    final request = await DormJoinRequest.db.findFirstRow(session, where: (request) => request.dormId.equals(dormId) & request.userId.equals(userId));
+    if (request == null) {
+      throw Exception("User $userId tried to cancel a request from dorm $dormId while no request was found");
+    }
+
+    await DormJoinRequest.db.deleteRow(session, request);
+  }
+
   Future<void> sendDormJoinRequest(Session session, int dormId, int userId) async {
-    final user = await UserService.getUserById(session, userId);
+    final user = await UserService.getUserById(session, userId, include: User.include(incomingJoinRequests: DormJoinRequest.includeList()));
     if (user.dormId != null) {
       throw Exception("This user already is part of a dorm");
     }
@@ -48,44 +87,5 @@ class DormEndpoint extends Endpoint {
 
     Dorm.db.attachRow.outgoingRequests(session, dorm, request);
     User.db.attachRow.incomingJoinRequests(session, user, request);
-  }
-
-  Future<void> acceptDormJoinRequest(Session session, int dormId, int userId) async {
-    final user = await UserService.getUserById(session, userId);
-    if (user.dormId != null) {
-      throw Exception("This user already is part of a dorm");
-    }
-
-    final request = await DormJoinRequest.db.findFirstRow(
-      session,
-      where: (request) => request.dormId.equals(dormId) & request.userId.equals(userId),
-    );
-
-    if (request == null) {
-      throw Exception("User $userId tried to join dorm $dormId while no request was send");
-    }
-
-    final dorm = await DormService.getDormById(session, dormId);
-    if (dorm.members!.any((member) => member.id! == userId)) {
-      throw StateError("The user $userId tried to accept an invitation to the dorm $dormId while they already were a port of this dorm");
-    }
-
-    final result = await session.db.transaction((transaction) async {
-      await DormJoinRequest.db.deleteWhere(session, where: (request) => request.userId.equals(userId));
-      await Dorm.db.attachRow.members(session, dorm, user, transaction: transaction);
-      return true;
-    });
-    if (!result) {
-      throw Exception("An exception occurred while joining the dorm, try again");
-    }
-  }
-
-  Future<void> denyDormJoinRequest(Session session, int dormId, int userId) async {
-    final request = await DormJoinRequest.db.findFirstRow(session, where: (request) => request.dormId.equals(dormId) & request.userId.equals(userId));
-    if (request == null) {
-      throw Exception("User $userId tried to cancel a request from dorm $dormId while no request was found");
-    }
-
-    await DormJoinRequest.db.deleteRow(session, request);
   }
 }

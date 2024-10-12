@@ -15,34 +15,33 @@ import 'protocol.dart' as _i2;
 abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
   Dorm._({
     this.id,
-    required this.lat,
-    required this.long,
-    this.websiteUrl,
     this.members,
     required this.ownerId,
     this.owner,
     this.outgoingRequests,
+    this.posts,
     required this.name,
+    required this.lat,
+    required this.long,
+    this.websiteUrl,
   });
 
   factory Dorm({
     int? id,
-    required double lat,
-    required double long,
-    String? websiteUrl,
     List<_i2.User>? members,
     required int ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    List<_i2.Post>? posts,
     required String name,
+    required double lat,
+    required double long,
+    String? websiteUrl,
   }) = _DormImpl;
 
   factory Dorm.fromJson(Map<String, dynamic> jsonSerialization) {
     return Dorm(
       id: jsonSerialization['id'] as int?,
-      lat: (jsonSerialization['lat'] as num).toDouble(),
-      long: (jsonSerialization['long'] as num).toDouble(),
-      websiteUrl: jsonSerialization['websiteUrl'] as String?,
       members: (jsonSerialization['members'] as List?)
           ?.map((e) => _i2.User.fromJson((e as Map<String, dynamic>)))
           .toList(),
@@ -55,7 +54,13 @@ abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
           ?.map(
               (e) => _i2.DormJoinRequest.fromJson((e as Map<String, dynamic>)))
           .toList(),
+      posts: (jsonSerialization['posts'] as List?)
+          ?.map((e) => _i2.Post.fromJson((e as Map<String, dynamic>)))
+          .toList(),
       name: jsonSerialization['name'] as String,
+      lat: (jsonSerialization['lat'] as num).toDouble(),
+      long: (jsonSerialization['long'] as num).toDouble(),
+      websiteUrl: jsonSerialization['websiteUrl'] as String?,
     );
   }
 
@@ -66,12 +71,6 @@ abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
   @override
   int? id;
 
-  double lat;
-
-  double long;
-
-  String? websiteUrl;
-
   List<_i2.User>? members;
 
   int ownerId;
@@ -80,29 +79,35 @@ abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
 
   List<_i2.DormJoinRequest>? outgoingRequests;
 
+  List<_i2.Post>? posts;
+
   String name;
+
+  double lat;
+
+  double long;
+
+  String? websiteUrl;
 
   @override
   _i1.Table get table => t;
 
   Dorm copyWith({
     int? id,
-    double? lat,
-    double? long,
-    String? websiteUrl,
     List<_i2.User>? members,
     int? ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    List<_i2.Post>? posts,
     String? name,
+    double? lat,
+    double? long,
+    String? websiteUrl,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      'lat': lat,
-      'long': long,
-      if (websiteUrl != null) 'websiteUrl': websiteUrl,
       if (members != null)
         'members': members?.toJson(valueToJson: (v) => v.toJson()),
       'ownerId': ownerId,
@@ -110,7 +115,11 @@ abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
       if (outgoingRequests != null)
         'outgoingRequests':
             outgoingRequests?.toJson(valueToJson: (v) => v.toJson()),
+      if (posts != null) 'posts': posts?.toJson(valueToJson: (v) => v.toJson()),
       'name': name,
+      'lat': lat,
+      'long': long,
+      if (websiteUrl != null) 'websiteUrl': websiteUrl,
     };
   }
 
@@ -118,9 +127,6 @@ abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
   Map<String, dynamic> toJsonForProtocol() {
     return {
       if (id != null) 'id': id,
-      'lat': lat,
-      'long': long,
-      if (websiteUrl != null) 'websiteUrl': websiteUrl,
       if (members != null)
         'members': members?.toJson(valueToJson: (v) => v.toJsonForProtocol()),
       'ownerId': ownerId,
@@ -128,7 +134,12 @@ abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
       if (outgoingRequests != null)
         'outgoingRequests':
             outgoingRequests?.toJson(valueToJson: (v) => v.toJsonForProtocol()),
+      if (posts != null)
+        'posts': posts?.toJson(valueToJson: (v) => v.toJsonForProtocol()),
       'name': name,
+      'lat': lat,
+      'long': long,
+      if (websiteUrl != null) 'websiteUrl': websiteUrl,
     };
   }
 
@@ -136,11 +147,13 @@ abstract class Dorm implements _i1.TableRow, _i1.ProtocolSerialization {
     _i2.UserIncludeList? members,
     _i2.UserInclude? owner,
     _i2.DormJoinRequestIncludeList? outgoingRequests,
+    _i2.PostIncludeList? posts,
   }) {
     return DormInclude._(
       members: members,
       owner: owner,
       outgoingRequests: outgoingRequests,
+      posts: posts,
     );
   }
 
@@ -175,43 +188,43 @@ class _Undefined {}
 class _DormImpl extends Dorm {
   _DormImpl({
     int? id,
-    required double lat,
-    required double long,
-    String? websiteUrl,
     List<_i2.User>? members,
     required int ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    List<_i2.Post>? posts,
     required String name,
+    required double lat,
+    required double long,
+    String? websiteUrl,
   }) : super._(
           id: id,
-          lat: lat,
-          long: long,
-          websiteUrl: websiteUrl,
           members: members,
           ownerId: ownerId,
           owner: owner,
           outgoingRequests: outgoingRequests,
+          posts: posts,
           name: name,
+          lat: lat,
+          long: long,
+          websiteUrl: websiteUrl,
         );
 
   @override
   Dorm copyWith({
     Object? id = _Undefined,
-    double? lat,
-    double? long,
-    Object? websiteUrl = _Undefined,
     Object? members = _Undefined,
     int? ownerId,
     Object? owner = _Undefined,
     Object? outgoingRequests = _Undefined,
+    Object? posts = _Undefined,
     String? name,
+    double? lat,
+    double? long,
+    Object? websiteUrl = _Undefined,
   }) {
     return Dorm(
       id: id is int? ? id : this.id,
-      lat: lat ?? this.lat,
-      long: long ?? this.long,
-      websiteUrl: websiteUrl is String? ? websiteUrl : this.websiteUrl,
       members: members is List<_i2.User>?
           ? members
           : this.members?.map((e0) => e0.copyWith()).toList(),
@@ -220,13 +233,27 @@ class _DormImpl extends Dorm {
       outgoingRequests: outgoingRequests is List<_i2.DormJoinRequest>?
           ? outgoingRequests
           : this.outgoingRequests?.map((e0) => e0.copyWith()).toList(),
+      posts: posts is List<_i2.Post>?
+          ? posts
+          : this.posts?.map((e0) => e0.copyWith()).toList(),
       name: name ?? this.name,
+      lat: lat ?? this.lat,
+      long: long ?? this.long,
+      websiteUrl: websiteUrl is String? ? websiteUrl : this.websiteUrl,
     );
   }
 }
 
 class DormTable extends _i1.Table {
   DormTable({super.tableRelation}) : super(tableName: 'dorm') {
+    ownerId = _i1.ColumnInt(
+      'ownerId',
+      this,
+    );
+    name = _i1.ColumnString(
+      'name',
+      this,
+    );
     lat = _i1.ColumnDouble(
       'lat',
       this,
@@ -239,21 +266,7 @@ class DormTable extends _i1.Table {
       'websiteUrl',
       this,
     );
-    ownerId = _i1.ColumnInt(
-      'ownerId',
-      this,
-    );
-    name = _i1.ColumnString(
-      'name',
-      this,
-    );
   }
-
-  late final _i1.ColumnDouble lat;
-
-  late final _i1.ColumnDouble long;
-
-  late final _i1.ColumnString websiteUrl;
 
   _i2.UserTable? ___members;
 
@@ -267,7 +280,17 @@ class DormTable extends _i1.Table {
 
   _i1.ManyRelation<_i2.DormJoinRequestTable>? _outgoingRequests;
 
+  _i2.PostTable? ___posts;
+
+  _i1.ManyRelation<_i2.PostTable>? _posts;
+
   late final _i1.ColumnString name;
+
+  late final _i1.ColumnDouble lat;
+
+  late final _i1.ColumnDouble long;
+
+  late final _i1.ColumnString websiteUrl;
 
   _i2.UserTable get __members {
     if (___members != null) return ___members!;
@@ -308,6 +331,19 @@ class DormTable extends _i1.Table {
     return ___outgoingRequests!;
   }
 
+  _i2.PostTable get __posts {
+    if (___posts != null) return ___posts!;
+    ___posts = _i1.createRelationTable(
+      relationFieldName: '__posts',
+      field: Dorm.t.id,
+      foreignField: _i2.Post.t.dormId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i2.PostTable(tableRelation: foreignTableRelation),
+    );
+    return ___posts!;
+  }
+
   _i1.ManyRelation<_i2.UserTable> get members {
     if (_members != null) return _members!;
     var relationTable = _i1.createRelationTable(
@@ -344,14 +380,32 @@ class DormTable extends _i1.Table {
     return _outgoingRequests!;
   }
 
+  _i1.ManyRelation<_i2.PostTable> get posts {
+    if (_posts != null) return _posts!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'posts',
+      field: Dorm.t.id,
+      foreignField: _i2.Post.t.dormId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i2.PostTable(tableRelation: foreignTableRelation),
+    );
+    _posts = _i1.ManyRelation<_i2.PostTable>(
+      tableWithRelations: relationTable,
+      table: _i2.PostTable(
+          tableRelation: relationTable.tableRelation!.lastRelation),
+    );
+    return _posts!;
+  }
+
   @override
   List<_i1.Column> get columns => [
         id,
+        ownerId,
+        name,
         lat,
         long,
         websiteUrl,
-        ownerId,
-        name,
       ];
 
   @override
@@ -365,6 +419,9 @@ class DormTable extends _i1.Table {
     if (relationField == 'outgoingRequests') {
       return __outgoingRequests;
     }
+    if (relationField == 'posts') {
+      return __posts;
+    }
     return null;
   }
 }
@@ -374,10 +431,12 @@ class DormInclude extends _i1.IncludeObject {
     _i2.UserIncludeList? members,
     _i2.UserInclude? owner,
     _i2.DormJoinRequestIncludeList? outgoingRequests,
+    _i2.PostIncludeList? posts,
   }) {
     _members = members;
     _owner = owner;
     _outgoingRequests = outgoingRequests;
+    _posts = posts;
   }
 
   _i2.UserIncludeList? _members;
@@ -386,11 +445,14 @@ class DormInclude extends _i1.IncludeObject {
 
   _i2.DormJoinRequestIncludeList? _outgoingRequests;
 
+  _i2.PostIncludeList? _posts;
+
   @override
   Map<String, _i1.Include?> get includes => {
         'members': _members,
         'owner': _owner,
         'outgoingRequests': _outgoingRequests,
+        'posts': _posts,
       };
 
   @override
@@ -625,6 +687,27 @@ class DormAttachRepository {
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
+
+  Future<void> posts(
+    _i1.DatabaseAccessor databaseAccessor,
+    Dorm dorm,
+    List<_i2.Post> post, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (post.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('post.id');
+    }
+    if (dorm.id == null) {
+      throw ArgumentError.notNull('dorm.id');
+    }
+
+    var $post = post.map((e) => e.copyWith(dormId: dorm.id)).toList();
+    await databaseAccessor.db.update<_i2.Post>(
+      $post,
+      columns: [_i2.Post.t.dormId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
 }
 
 class DormAttachRowRepository {
@@ -692,6 +775,27 @@ class DormAttachRowRepository {
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
+
+  Future<void> posts(
+    _i1.DatabaseAccessor databaseAccessor,
+    Dorm dorm,
+    _i2.Post post, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (post.id == null) {
+      throw ArgumentError.notNull('post.id');
+    }
+    if (dorm.id == null) {
+      throw ArgumentError.notNull('dorm.id');
+    }
+
+    var $post = post.copyWith(dormId: dorm.id);
+    await databaseAccessor.db.updateRow<_i2.Post>(
+      $post,
+      columns: [_i2.Post.t.dormId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
 }
 
 class DormDetachRepository {
@@ -731,6 +835,23 @@ class DormDetachRepository {
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }
+
+  Future<void> posts(
+    _i1.DatabaseAccessor databaseAccessor,
+    List<_i2.Post> post, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (post.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('post.id');
+    }
+
+    var $post = post.map((e) => e.copyWith(dormId: null)).toList();
+    await databaseAccessor.db.update<_i2.Post>(
+      $post,
+      columns: [_i2.Post.t.dormId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
 }
 
 class DormDetachRowRepository {
@@ -766,6 +887,23 @@ class DormDetachRowRepository {
     await databaseAccessor.db.updateRow<_i2.DormJoinRequest>(
       $dormJoinRequest,
       columns: [_i2.DormJoinRequest.t.dormId],
+      transaction: transaction ?? databaseAccessor.transaction,
+    );
+  }
+
+  Future<void> posts(
+    _i1.DatabaseAccessor databaseAccessor,
+    _i2.Post post, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (post.id == null) {
+      throw ArgumentError.notNull('post.id');
+    }
+
+    var $post = post.copyWith(dormId: null);
+    await databaseAccessor.db.updateRow<_i2.Post>(
+      $post,
+      columns: [_i2.Post.t.dormId],
       transaction: transaction ?? databaseAccessor.transaction,
     );
   }

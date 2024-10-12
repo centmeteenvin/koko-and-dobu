@@ -1,10 +1,5 @@
-admin:
-  - makeAdmin:
-  - removeAdmin:
-dorm:
-  - createDorm:
-  - sendDormJoinRequest:
-  - acceptDormJoinRequest:
-  - denyDormJoinRequest:
+post:
+  - createPost:
+  - deletePost:
 user:
   - getUserById:

@@ -15,34 +15,33 @@ import 'protocol.dart' as _i2;
 abstract class Dorm implements _i1.SerializableModel {
   Dorm._({
     this.id,
-    required this.lat,
-    required this.long,
-    this.websiteUrl,
     this.members,
     required this.ownerId,
     this.owner,
     this.outgoingRequests,
+    this.posts,
     required this.name,
+    required this.lat,
+    required this.long,
+    this.websiteUrl,
   });
 
   factory Dorm({
     int? id,
-    required double lat,
-    required double long,
-    String? websiteUrl,
     List<_i2.User>? members,
     required int ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    List<_i2.Post>? posts,
     required String name,
+    required double lat,
+    required double long,
+    String? websiteUrl,
   }) = _DormImpl;
 
   factory Dorm.fromJson(Map<String, dynamic> jsonSerialization) {
     return Dorm(
       id: jsonSerialization['id'] as int?,
-      lat: (jsonSerialization['lat'] as num).toDouble(),
-      long: (jsonSerialization['long'] as num).toDouble(),
-      websiteUrl: jsonSerialization['websiteUrl'] as String?,
       members: (jsonSerialization['members'] as List?)
           ?.map((e) => _i2.User.fromJson((e as Map<String, dynamic>)))
           .toList(),
@@ -55,7 +54,13 @@ abstract class Dorm implements _i1.SerializableModel {
           ?.map(
               (e) => _i2.DormJoinRequest.fromJson((e as Map<String, dynamic>)))
           .toList(),
+      posts: (jsonSerialization['posts'] as List?)
+          ?.map((e) => _i2.Post.fromJson((e as Map<String, dynamic>)))
+          .toList(),
       name: jsonSerialization['name'] as String,
+      lat: (jsonSerialization['lat'] as num).toDouble(),
+      long: (jsonSerialization['long'] as num).toDouble(),
+      websiteUrl: jsonSerialization['websiteUrl'] as String?,
     );
   }
 
@@ -63,12 +68,6 @@ abstract class Dorm implements _i1.SerializableModel {
   /// database or if it has been fetched from the database. Otherwise,
   /// the id will be null.
   int? id;
-
-  double lat;
-
-  double long;
-
-  String? websiteUrl;
 
   List<_i2.User>? members;
 
@@ -78,26 +77,32 @@ abstract class Dorm implements _i1.SerializableModel {
 
   List<_i2.DormJoinRequest>? outgoingRequests;
 
+  List<_i2.Post>? posts;
+
   String name;
+
+  double lat;
+
+  double long;
+
+  String? websiteUrl;
 
   Dorm copyWith({
     int? id,
-    double? lat,
-    double? long,
-    String? websiteUrl,
     List<_i2.User>? members,
     int? ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    List<_i2.Post>? posts,
     String? name,
+    double? lat,
+    double? long,
+    String? websiteUrl,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      'lat': lat,
-      'long': long,
-      if (websiteUrl != null) 'websiteUrl': websiteUrl,
       if (members != null)
         'members': members?.toJson(valueToJson: (v) => v.toJson()),
       'ownerId': ownerId,
@@ -105,7 +110,11 @@ abstract class Dorm implements _i1.SerializableModel {
       if (outgoingRequests != null)
         'outgoingRequests':
             outgoingRequests?.toJson(valueToJson: (v) => v.toJson()),
+      if (posts != null) 'posts': posts?.toJson(valueToJson: (v) => v.toJson()),
       'name': name,
+      'lat': lat,
+      'long': long,
+      if (websiteUrl != null) 'websiteUrl': websiteUrl,
     };
   }
 
@@ -120,43 +129,43 @@ class _Undefined {}
 class _DormImpl extends Dorm {
   _DormImpl({
     int? id,
-    required double lat,
-    required double long,
-    String? websiteUrl,
     List<_i2.User>? members,
     required int ownerId,
     _i2.User? owner,
     List<_i2.DormJoinRequest>? outgoingRequests,
+    List<_i2.Post>? posts,
     required String name,
+    required double lat,
+    required double long,
+    String? websiteUrl,
   }) : super._(
           id: id,
-          lat: lat,
-          long: long,
-          websiteUrl: websiteUrl,
           members: members,
           ownerId: ownerId,
           owner: owner,
           outgoingRequests: outgoingRequests,
+          posts: posts,
           name: name,
+          lat: lat,
+          long: long,
+          websiteUrl: websiteUrl,
         );
 
   @override
   Dorm copyWith({
     Object? id = _Undefined,
-    double? lat,
-    double? long,
-    Object? websiteUrl = _Undefined,
     Object? members = _Undefined,
     int? ownerId,
     Object? owner = _Undefined,
     Object? outgoingRequests = _Undefined,
+    Object? posts = _Undefined,
     String? name,
+    double? lat,
+    double? long,
+    Object? websiteUrl = _Undefined,
   }) {
     return Dorm(
       id: id is int? ? id : this.id,
-      lat: lat ?? this.lat,
-      long: long ?? this.long,
-      websiteUrl: websiteUrl is String? ? websiteUrl : this.websiteUrl,
       members: members is List<_i2.User>?
           ? members
           : this.members?.map((e0) => e0.copyWith()).toList(),
@@ -165,7 +174,13 @@ class _DormImpl extends Dorm {
       outgoingRequests: outgoingRequests is List<_i2.DormJoinRequest>?
           ? outgoingRequests
           : this.outgoingRequests?.map((e0) => e0.copyWith()).toList(),
+      posts: posts is List<_i2.Post>?
+          ? posts
+          : this.posts?.map((e0) => e0.copyWith()).toList(),
       name: name ?? this.name,
+      lat: lat ?? this.lat,
+      long: long ?? this.long,
+      websiteUrl: websiteUrl is String? ? websiteUrl : this.websiteUrl,
     );
   }
 }

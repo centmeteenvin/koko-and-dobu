@@ -72,6 +72,9 @@
       "redis",
       "serverpod",
       "vvjbdo"
-    ]
+    ],
+    "editor.codeActionsOnSave": {
+      "source": "always"
+    }
   }
 }

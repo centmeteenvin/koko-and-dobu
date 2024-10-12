@@ -11,90 +11,42 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:koko_and_dobu_client/src/protocol/dorm.dart' as _i3;
+import 'package:koko_and_dobu_client/src/protocol/post.dart' as _i3;
 import 'package:koko_and_dobu_client/src/protocol/user.dart' as _i4;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
 import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
-class EndpointAdmin extends _i1.EndpointRef {
-  EndpointAdmin(_i1.EndpointCaller caller) : super(caller);
+class EndpointPost extends _i1.EndpointRef {
+  EndpointPost(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'admin';
+  String get name => 'post';
 
-  _i2.Future<void> makeAdmin(int userId) => caller.callServerEndpoint<void>(
-        'admin',
-        'makeAdmin',
-        {'userId': userId},
-      );
-
-  _i2.Future<void> removeAdmin(int userId) => caller.callServerEndpoint<void>(
-        'admin',
-        'removeAdmin',
-        {'userId': userId},
-      );
-}
-
-/// {@category Endpoint}
-class EndpointDorm extends _i1.EndpointRef {
-  EndpointDorm(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'dorm';
-
-  _i2.Future<_i3.Dorm> createDorm({
-    required double lat,
-    required double long,
-    String? websiteUrl,
-    required String name,
+  _i2.Future<_i3.Post> createPost({
+    required int dormId,
+    required int userId,
+    required String message,
   }) =>
-      caller.callServerEndpoint<_i3.Dorm>(
-        'dorm',
-        'createDorm',
-        {
-          'lat': lat,
-          'long': long,
-          'websiteUrl': websiteUrl,
-          'name': name,
-        },
-      );
-
-  _i2.Future<void> sendDormJoinRequest(
-    int dormId,
-    int userId,
-  ) =>
-      caller.callServerEndpoint<void>(
-        'dorm',
-        'sendDormJoinRequest',
+      caller.callServerEndpoint<_i3.Post>(
+        'post',
+        'createPost',
         {
           'dormId': dormId,
           'userId': userId,
+          'message': message,
         },
       );
 
-  _i2.Future<void> acceptDormJoinRequest(
-    int dormId,
+  _i2.Future<void> deletePost(
+    int postId,
     int userId,
   ) =>
       caller.callServerEndpoint<void>(
-        'dorm',
-        'acceptDormJoinRequest',
+        'post',
+        'deletePost',
         {
-          'dormId': dormId,
-          'userId': userId,
-        },
-      );
-
-  _i2.Future<void> denyDormJoinRequest(
-    int dormId,
-    int userId,
-  ) =>
-      caller.callServerEndpoint<void>(
-        'dorm',
-        'denyDormJoinRequest',
-        {
-          'dormId': dormId,
+          'postId': postId,
           'userId': userId,
         },
       );
@@ -149,15 +101,12 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
-    admin = EndpointAdmin(this);
-    dorm = EndpointDorm(this);
+    post = EndpointPost(this);
     user = EndpointUser(this);
     modules = _Modules(this);
   }
 
-  late final EndpointAdmin admin;
-
-  late final EndpointDorm dorm;
+  late final EndpointPost post;
 
   late final EndpointUser user;
 
@@ -165,8 +114,7 @@ class Client extends _i1.ServerpodClientShared {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
-        'admin': admin,
-        'dorm': dorm,
+        'post': post,
         'user': user,
       };
 

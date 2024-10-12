@@ -15,10 +15,12 @@ import 'package:serverpod/protocol.dart' as _i2;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
 import 'dorm.dart' as _i4;
 import 'dorm_join_request.dart' as _i5;
-import 'user.dart' as _i6;
-import 'protocol.dart' as _i7;
+import 'post.dart' as _i6;
+import 'user.dart' as _i7;
+import 'protocol.dart' as _i8;
 export 'dorm.dart';
 export 'dorm_join_request.dart';
+export 'post.dart';
 export 'user.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -43,6 +45,18 @@ class Protocol extends _i1.SerializationManagerServer {
           columnDefault: 'nextval(\'dorm_id_seq\'::regclass)',
         ),
         _i2.ColumnDefinition(
+          name: 'ownerId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
           name: 'lat',
           columnType: _i2.ColumnType.doublePrecision,
           isNullable: false,
@@ -59,18 +73,6 @@ class Protocol extends _i1.SerializationManagerServer {
           columnType: _i2.ColumnType.text,
           isNullable: true,
           dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'ownerId',
-          columnType: _i2.ColumnType.bigint,
-          isNullable: false,
-          dartType: 'int',
-        ),
-        _i2.ColumnDefinition(
-          name: 'name',
-          columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
         ),
       ],
       foreignKeys: [
@@ -181,6 +183,83 @@ class Protocol extends _i1.SerializationManagerServer {
       managed: true,
     ),
     _i2.TableDefinition(
+      name: 'post',
+      dartName: 'Post',
+      schema: 'public',
+      module: 'koko_and_dobu',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'post_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'dormId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'createdById',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'message',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'datePosted',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'post_fk_0',
+          columns: ['dormId'],
+          referenceTable: 'dorm',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        ),
+        _i2.ForeignKeyDefinition(
+          constraintName: 'post_fk_1',
+          columns: ['createdById'],
+          referenceTable: 'user',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.cascade,
+          matchType: null,
+        ),
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'post_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
       name: 'user',
       dartName: 'User',
       schema: 'public',
@@ -274,8 +353,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i5.DormJoinRequest) {
       return _i5.DormJoinRequest.fromJson(data) as T;
     }
-    if (t == _i6.User) {
-      return _i6.User.fromJson(data) as T;
+    if (t == _i6.Post) {
+      return _i6.Post.fromJson(data) as T;
+    }
+    if (t == _i7.User) {
+      return _i7.User.fromJson(data) as T;
     }
     if (t == _i1.getType<_i4.Dorm?>()) {
       return (data != null ? _i4.Dorm.fromJson(data) : null) as T;
@@ -283,25 +365,33 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i5.DormJoinRequest?>()) {
       return (data != null ? _i5.DormJoinRequest.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.User?>()) {
-      return (data != null ? _i6.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.Post?>()) {
+      return (data != null ? _i6.Post.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<List<_i7.User>?>()) {
+    if (t == _i1.getType<_i7.User?>()) {
+      return (data != null ? _i7.User.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<List<_i8.User>?>()) {
       return (data != null
-          ? (data as List).map((e) => deserialize<_i7.User>(e)).toList()
+          ? (data as List).map((e) => deserialize<_i8.User>(e)).toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i7.DormJoinRequest>?>()) {
+    if (t == _i1.getType<List<_i8.DormJoinRequest>?>()) {
       return (data != null
           ? (data as List)
-              .map((e) => deserialize<_i7.DormJoinRequest>(e))
+              .map((e) => deserialize<_i8.DormJoinRequest>(e))
               .toList()
           : null) as dynamic;
     }
-    if (t == _i1.getType<List<_i7.DormJoinRequest>?>()) {
+    if (t == _i1.getType<List<_i8.Post>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<_i8.Post>(e)).toList()
+          : null) as dynamic;
+    }
+    if (t == _i1.getType<List<_i8.DormJoinRequest>?>()) {
       return (data != null
           ? (data as List)
-              .map((e) => deserialize<_i7.DormJoinRequest>(e))
+              .map((e) => deserialize<_i8.DormJoinRequest>(e))
               .toList()
           : null) as dynamic;
     }
@@ -324,7 +414,10 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i5.DormJoinRequest) {
       return 'DormJoinRequest';
     }
-    if (data is _i6.User) {
+    if (data is _i6.Post) {
+      return 'Post';
+    }
+    if (data is _i7.User) {
       return 'User';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -346,8 +439,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'DormJoinRequest') {
       return deserialize<_i5.DormJoinRequest>(data['data']);
     }
+    if (data['className'] == 'Post') {
+      return deserialize<_i6.Post>(data['data']);
+    }
     if (data['className'] == 'User') {
-      return deserialize<_i6.User>(data['data']);
+      return deserialize<_i7.User>(data['data']);
     }
     if (data['className'].startsWith('serverpod.')) {
       data['className'] = data['className'].substring(10);
@@ -379,8 +475,10 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i4.Dorm.t;
       case _i5.DormJoinRequest:
         return _i5.DormJoinRequest.t;
-      case _i6.User:
-        return _i6.User.t;
+      case _i6.Post:
+        return _i6.Post.t;
+      case _i7.User:
+        return _i7.User.t;
     }
     return null;
   }
