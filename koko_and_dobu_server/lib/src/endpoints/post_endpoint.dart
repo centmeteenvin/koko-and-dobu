@@ -1,4 +1,6 @@
 import 'package:koko_and_dobu_server/src/generated/protocol.dart';
+import 'package:koko_and_dobu_server/src/helpers/session_user_extension.dart';
+import 'package:koko_and_dobu_server/src/models/post/post_data_mapper.dart';
 import 'package:koko_and_dobu_server/src/services/dorm_service.dart';
 import 'package:koko_and_dobu_server/src/services/post_service.dart';
 import 'package:koko_and_dobu_server/src/services/user_service.dart';
@@ -24,6 +26,16 @@ class PostEndpoint extends Endpoint {
       throw Exception("User ${user.id} tried to delete post $postId that wasn't theirs");
     }
     await Post.db.deleteRow(session, post);
+  }
+
+  /// Fetch the given post by it's id given that the current User is part of the same dorm
+  Future<PostData> getPostById(Session session, int postId) async {
+    final post = await PostService.getPostById(session, postId);
+    final currentUser = await session.currentUserOrThrow;
+    if (currentUser.dormId != post.dormId) {
+      throw Exception('User ${currentUser.id} cannot fetch post $postId from dorm ${post.dormId} because the user is part of dorm ${currentUser.dormId}');
+    }
+    return post.asDto;
   }
 
   Future<void> seenBy(Session session, int postId, int userId) async {

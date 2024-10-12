@@ -1,5 +1,6 @@
 import 'package:koko_and_dobu_server/src/generated/protocol.dart';
 import 'package:koko_and_dobu_server/src/helpers/session_user_extension.dart';
+import 'package:koko_and_dobu_server/src/models/dorm/dorm_data_mapper.dart';
 import 'package:koko_and_dobu_server/src/services/dorm_service.dart';
 import 'package:koko_and_dobu_server/src/services/user_service.dart';
 import 'package:serverpod/serverpod.dart';
@@ -76,6 +77,27 @@ class DormEndpoint extends Endpoint {
     }
 
     await DormJoinRequest.db.deleteRow(session, request);
+  }
+
+  /// Fetched the dorm if the current user is part of the dorm or invited to the dorm
+  Future<DormData> getDormById(Session session, int dormId) async {
+    final user = await session.currentUserOrThrow;
+    if (user.dormId != dormId || !user.incomingJoinRequests!.any((request) => request.dormId == dormId)) {
+      throw Exception('''
+User ${user.id} cannot fetch dorm $dormId because they are not affiliated with it in any way:
+user's dormId: ${user.dormId}
+user's requestIds: ${user.incomingJoinRequests!.map((request) => request.dormId)}
+''');
+    }
+    final dorm = await DormService.getDormById(
+      session,
+      dormId,
+      include: Dorm.include(
+        members: User.includeList(),
+        outgoingRequests: DormJoinRequest.includeList(),
+      ),
+    );
+    return dorm.asDTO;
   }
 
   Future<void> sendDormJoinRequest(Session session, int dormId, int userId) async {

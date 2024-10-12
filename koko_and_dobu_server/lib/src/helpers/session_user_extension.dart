@@ -32,7 +32,14 @@ extension SessionUser on Session {
       throw NotAuthorizedException(ResultAuthenticationFailed.unauthenticated('The user was not authenticated'));
     }
 
-    final user = await User.db.findFirstRow(this, where: (user) => user.userInfoId.equals(userInfoId));
+    final user = await User.db.findFirstRow(
+      this,
+      where: (user) => user.userInfoId.equals(userInfoId),
+      include: User.include(
+        userInfo: UserInfo.include(),
+        incomingJoinRequests: DormJoinRequest.includeList(),
+      ),
+    );
     if (user == null) {
       throw StateError('Illegal state: an authenticated person did not have a User object associated with it');
     }
