@@ -1,5 +1,5 @@
 import 'package:koko_and_dobu_server/src/endpoints/dorm/implementations/dorm_endpoint_creation_implementation.dart';
-import 'package:koko_and_dobu_server/src/endpoints/dorm/implementations/dorm_endpoint_request_mixin.dart';
+import 'package:koko_and_dobu_server/src/endpoints/dorm/implementations/dorm_endpoint_request_implementation.dart';
 import 'package:koko_and_dobu_server/src/generated/protocol.dart';
 import 'package:koko_and_dobu_server/src/helpers/session_user_extension.dart';
 import 'package:koko_and_dobu_server/src/models/dorm/dorm_data_mapper.dart';
