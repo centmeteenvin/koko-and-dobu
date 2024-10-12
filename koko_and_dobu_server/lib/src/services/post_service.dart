@@ -5,7 +5,7 @@ class PostService {
   static Future<Post> getPostById(Session session, int postId) async {
     final post = await Post.db.findById(session, postId);
     if (post == null) {
-      throw Exception("The post with id $postId does not exist");
+      throw Exception('The post with id $postId does not exist');
     }
     return post;
   }

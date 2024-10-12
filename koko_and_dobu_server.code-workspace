@@ -75,6 +75,7 @@
     ],
     "editor.codeActionsOnSave": {
       "source": "always"
-    }
+    },
+    "editor.rulers": []
   }
 }

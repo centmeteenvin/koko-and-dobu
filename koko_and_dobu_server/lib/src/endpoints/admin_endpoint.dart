@@ -12,9 +12,9 @@ class AdminEndpoint extends Endpoint {
 
   Future<void> makeAdmin(Session session, int userId) async {
     final user = await UserService.getUserById(session, userId, include: User.include(userInfo: UserInfo.include()));
-    final hasAdminRole = user.userInfo!.scopeNames.contains(Scope.admin.name!);
+    final hasAdminRole = user.userInfo!.scopeNames.contains(Scope.admin.name);
     if (hasAdminRole) {
-      throw Exception("Already admin");
+      throw Exception('Already admin');
     }
 
     final previousScopes = user.userInfo?.scopeNames.map(Scope.new) ?? {};
@@ -24,9 +24,9 @@ class AdminEndpoint extends Endpoint {
 
   Future<void> removeAdmin(Session session, int userId) async {
     final user = await UserService.getUserById(session, userId, include: User.include(userInfo: UserInfo.include()));
-    final hasAdminRole = user.userInfo!.scopeNames.contains(Scope.admin.name!);
+    final hasAdminRole = user.userInfo!.scopeNames.contains(Scope.admin.name);
     if (!hasAdminRole) {
-      throw Exception("This user is not an admin.");
+      throw Exception('This user is not an admin.');
     }
     final previousScopes = user.userInfo?.scopeNames.map(Scope.new) ?? {};
     await Users.updateUserScopes(session, userId, previousScopes.where((scope) => scope != Scope.admin).toSet());

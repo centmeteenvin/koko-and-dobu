@@ -6,7 +6,7 @@ class DormService {
   static Future<Dorm> getDormById(Session session, int dormId, {DormInclude? include}) async {
     final dorm = await Dorm.db.findById(session, dormId, include: include);
     if (dorm == null) {
-      throw Exception("Dorm with id $dormId not found");
+      throw Exception('Dorm with id $dormId not found');
     }
     return dorm;
   }
@@ -15,7 +15,7 @@ class DormService {
   static Future<({Dorm dorm, User user})> getUserAndDormById(Session session, int dormId, int userId) async {
     final user = await UserService.getUserById(session, userId);
     if (user.dormId == dormId) {
-      throw Exception("Tried to fetch a user dorm combination of a user who is not port of the dorm");
+      throw Exception('Tried to fetch a user dorm combination of a user who is not port of the dorm');
     }
     final dorm = await getDormById(session, dormId);
     return (dorm: dorm, user: user);

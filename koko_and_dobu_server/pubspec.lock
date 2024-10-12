@@ -185,14 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.1"
-  lints:
-    dependency: "direct dev"
-    description:
-      name: lints
-      sha256: "3315600f3fb3b135be672bf4a178c55f274bebe368325ae18462c89ac1e3b413"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.0"
   logging:
     dependency: transitive
     description:
@@ -377,6 +369,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  strict:
+    dependency: "direct dev"
+    description:
+      name: strict
+      sha256: "23bc2d1c00afa1685324b547c9a63e42f312668e737d6096142258c383bcb456"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   string_scanner:
     dependency: transitive
     description:

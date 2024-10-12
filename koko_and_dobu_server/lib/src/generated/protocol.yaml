@@ -1,3 +1,11 @@
+admin:
+  - makeAdmin:
+  - removeAdmin:
+dorm:
+  - acceptDormJoinRequest:
+  - createDorm:
+  - denyDormJoinRequest:
+  - sendDormJoinRequest:
 post:
   - createPost:
   - deletePost:

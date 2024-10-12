@@ -9,7 +9,7 @@ class UserService {
       include: include,
     );
     if (user == null) {
-      throw Exception("User with id $userId not found.");
+      throw Exception('User with id $userId not found.');
     }
     return user;
   }
