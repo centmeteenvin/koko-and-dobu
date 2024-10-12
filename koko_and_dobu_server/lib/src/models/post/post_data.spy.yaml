@@ -1,0 +1,6 @@
+class: PostData
+fields:
+    dormId: int
+    createdById: int
+    message: String
+    datePosted: DateTime

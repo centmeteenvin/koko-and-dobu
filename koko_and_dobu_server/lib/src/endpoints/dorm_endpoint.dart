@@ -89,7 +89,7 @@ class DormEndpoint extends Endpoint {
     }
 
     final dorm = await DormService.getDormById(session, dormId);
-    final request = await DormJoinRequest.db.insertRow(session, DormJoinRequest(dormId: dormId, userId: userId));
+    final request = await DormJoinRequest.db.insertRow(session, DormJoinRequest(dormId: dormId, userId: userId, sendDate: DateTime.now().toUtc()));
 
     await Dorm.db.attachRow.outgoingRequests(session, dorm, request);
     await User.db.attachRow.incomingJoinRequests(session, user, request);

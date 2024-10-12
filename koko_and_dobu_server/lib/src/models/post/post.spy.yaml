@@ -5,4 +5,5 @@ fields:
     createdBy: User?, relation(onDelete=cascade)
     message: String
     datePosted: DateTime
+    seenBy: List<User>?, relation
 

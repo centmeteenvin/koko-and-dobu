@@ -1,0 +1,10 @@
+class: DormData
+fields:
+    name: String
+    lat: double
+    long: double
+    websiteUrl: String?
+    ownerId: int
+    memberIds: List<int>
+    postIds: List<int>
+    outgoingRequestIds: List<int> 

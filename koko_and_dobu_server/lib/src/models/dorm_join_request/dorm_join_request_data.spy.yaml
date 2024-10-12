@@ -1,0 +1,5 @@
+class: DormJoinRequestData
+fields:
+    dormId: int
+    userId: int
+    sendDate: DateTime

@@ -3,3 +3,4 @@ table: dorm_join_request
 fields:
     dorm: Dorm?, relation(name=dorm_join_request_dorm, onDelete=cascade)
     user: User?, relation(name=dorm_join_request_recipient, onDelete=cascade)
+    sendDate: DateTime
