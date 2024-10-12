@@ -13,26 +13,26 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
 abstract class UserData implements _i1.SerializableModel {
   UserData._({
-    required this.userName,
-    required this.email,
-    required this.profileUrl,
+    this.userName,
+    this.email,
+    this.profileUrl,
     this.dormId,
     required this.incomingJoinRequestIds,
   });
 
   factory UserData({
-    required String userName,
-    required String email,
-    required String profileUrl,
+    String? userName,
+    String? email,
+    String? profileUrl,
     int? dormId,
     required List<int> incomingJoinRequestIds,
   }) = _UserDataImpl;
 
   factory UserData.fromJson(Map<String, dynamic> jsonSerialization) {
     return UserData(
-      userName: jsonSerialization['userName'] as String,
-      email: jsonSerialization['email'] as String,
-      profileUrl: jsonSerialization['profileUrl'] as String,
+      userName: jsonSerialization['userName'] as String?,
+      email: jsonSerialization['email'] as String?,
+      profileUrl: jsonSerialization['profileUrl'] as String?,
       dormId: jsonSerialization['dormId'] as int?,
       incomingJoinRequestIds:
           (jsonSerialization['incomingJoinRequestIds'] as List)
@@ -41,11 +41,11 @@ abstract class UserData implements _i1.SerializableModel {
     );
   }
 
-  String userName;
+  String? userName;
 
-  String email;
+  String? email;
 
-  String profileUrl;
+  String? profileUrl;
 
   int? dormId;
 
@@ -61,9 +61,9 @@ abstract class UserData implements _i1.SerializableModel {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'userName': userName,
-      'email': email,
-      'profileUrl': profileUrl,
+      if (userName != null) 'userName': userName,
+      if (email != null) 'email': email,
+      if (profileUrl != null) 'profileUrl': profileUrl,
       if (dormId != null) 'dormId': dormId,
       'incomingJoinRequestIds': incomingJoinRequestIds.toJson(),
     };
@@ -79,9 +79,9 @@ class _Undefined {}
 
 class _UserDataImpl extends UserData {
   _UserDataImpl({
-    required String userName,
-    required String email,
-    required String profileUrl,
+    String? userName,
+    String? email,
+    String? profileUrl,
     int? dormId,
     required List<int> incomingJoinRequestIds,
   }) : super._(
@@ -94,16 +94,16 @@ class _UserDataImpl extends UserData {
 
   @override
   UserData copyWith({
-    String? userName,
-    String? email,
-    String? profileUrl,
+    Object? userName = _Undefined,
+    Object? email = _Undefined,
+    Object? profileUrl = _Undefined,
     Object? dormId = _Undefined,
     List<int>? incomingJoinRequestIds,
   }) {
     return UserData(
-      userName: userName ?? this.userName,
-      email: email ?? this.email,
-      profileUrl: profileUrl ?? this.profileUrl,
+      userName: userName is String? ? userName : this.userName,
+      email: email is String? ? email : this.email,
+      profileUrl: profileUrl is String? ? profileUrl : this.profileUrl,
       dormId: dormId is int? ? dormId : this.dormId,
       incomingJoinRequestIds: incomingJoinRequestIds ??
           this.incomingJoinRequestIds.map((e0) => e0).toList(),

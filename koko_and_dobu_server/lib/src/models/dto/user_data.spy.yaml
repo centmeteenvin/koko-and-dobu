@@ -1,7 +1,7 @@
 class: UserData
 fields:
-    userName: String
-    email: String
-    profileUrl: String
+    userName: String?
+    email: String?
+    profileUrl: String?
     dormId: int?
     incomingJoinRequestIds: List<int>
