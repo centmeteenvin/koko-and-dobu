@@ -36,6 +36,13 @@
               "serverpod generate --watch",
             ],
           },
+          {
+            "name": "flutter watch",
+            "commands": [
+              "cd koko_and_dobu_flutter",
+              "dart run build_runner watch",
+            ],
+          },
         ]
       },
       {
